@@ -1,5 +1,5 @@
 <section class="container">
-  <h1 class="title">Custom material buttons</h1>
+  <h1 class="title">Custom angular/material buttons</h1>
 
   <div class="group-buttons">
     <button mat-stroked-button color="primary">Voltar</button>
@@ -14,6 +14,19 @@
   </div>
   <div class="group-buttons">
     <button mat-raised-button disabled>Redefinir senha</button>
+  </div>
+  <br>
+  <h1>Teste com a Diretiva</h1> <!-- com diretiva ainda nao funcionou -->
+  <div class="group-buttons">
+    <button appBtnCustom
+     buttonType="raised" color="accent"
+     buttonText="Login teste"></button>
+
+     <button appBtnCustom [buttonType]="'stroked'" [color]="'primary'">Voltar</button>
+
+     <div class="group-buttons">
+      <button appBtnCustom [buttonType]="'stroked'" [color]="'primary'">Voltar</button>
+    </div>
   </div>
 </section>
 
