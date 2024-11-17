@@ -1,0 +1,21 @@
+<button
+  *ngIf="isOutlined; else raisedButton"
+  mat-stroked-button
+  [disabled]="isDisabled"
+  [color]="getValidatedColor()"
+  (click)="onClick()"
+>
+  {{ btnText }}
+</button>
+
+<ng-template #raisedButton>
+  <button
+    mat-raised-button
+    [disabled]="isDisabled"
+    [color]="getValidatedColor()"
+    (click)="onClick()"
+  >
+    {{ btnText }}
+  </button>
+</ng-template>
+
