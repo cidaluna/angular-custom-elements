@@ -14,8 +14,8 @@ Projeto Angular para customizar elementos em páginas Web.
 - Node.js
 
 
-Tela exemplos de botões do Angular/Material:
+Tela de botões do Angular Material customizados:
 
-![Botões do Angular/Material](./src/assets/angular-material-buttons-example.PNG)
+![Customizando botões do Angular Material](./src/assets/custom-buttons-angular-material.PNG)
 
 
