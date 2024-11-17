@@ -1,4 +1,5 @@
 <section class="container">
+  <!--
   <h1 class="title">Custom angular/material buttons</h1>
 
   <div class="group-buttons">
@@ -16,18 +17,54 @@
     <button mat-raised-button disabled>Redefinir senha</button>
   </div>
   <br>
-  <h1>Teste com a Diretiva</h1> <!-- com diretiva ainda nao funcionou -->
-  <div class="group-buttons">
-    <button appBtnCustom
-     buttonType="raised" color="accent"
-     buttonText="Login teste"></button>
+  -->
+  <h1>Customizando botões no Angular</h1>
 
-     <button appBtnCustom [buttonType]="'stroked'" [color]="'primary'">Voltar</button>
-
-     <div class="group-buttons">
-      <button appBtnCustom [buttonType]="'stroked'" [color]="'primary'">Voltar</button>
-    </div>
+  @if(buttons1.length > 0){
+    <div class="group-buttons">
+      @for (button of buttons1; track $index) {
+        <app-button
+        [isOutlined]="button.isOutlined"
+        [isDisabled]="button.isDisabled"
+        [btnColor]="button.btnColor"
+        [btnText]="button.btnText"
+        [ngStyle]="{'width': buttons1.length === 1 ? '100%' : 'auto'}"
+        (buttonClick)="button.onClick()"
+        ></app-button>
+      }
   </div>
+  }
+
+  @if(buttons2.length > 0){
+    <div class="group-buttons">
+      @for (button of buttons2; track $index) {
+        <app-button
+        [isOutlined]="button.isOutlined"
+        [isDisabled]="button.isDisabled"
+        [btnColor]="button.btnColor"
+        [btnText]="button.btnText"
+        [ngStyle]="{'width': buttons2.length === 1 ? '100%' : 'auto'}"
+        (buttonClick)="button.onClick()"
+        ></app-button>
+      }
+  </div>
+  }
+
+  @if(buttons3.length > 0){
+    <div class="group-buttons">
+      @for (button of buttons3; track $index) {
+        <app-button
+        [isOutlined]="button.isOutlined"
+        [isDisabled]="button.isDisabled"
+        [btnColor]="button.btnColor"
+        [btnText]="button.btnText"
+        [ngStyle]="{'width': buttons3.length === 1 ? '100%' : 'auto'}"
+        (buttonClick)="button.onClick()"
+        ></app-button>
+      }
+  </div>
+  }
+
 </section>
 
 <router-outlet></router-outlet>
