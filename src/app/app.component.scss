@@ -1,47 +1,13 @@
-.container{
+.section{
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100vw;
-  background-color: #ededed;
-  padding: 50px 0px;
+  height: auto;
+  padding: 20px 0px;
 
   .title{
     font-size: 2rem;
-  }
-
-  // buttons
-  .group-buttons{
-    max-width: 500px;
-    background-color: #fff;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    border: 2px solid black;
-    padding: 50px;
-    margin: 10px;
-
-    .mat-mdc-outlined-button {
-      border-color: currentColor;
-      border-style: solid;
-      border-width: 2px;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .group-buttons {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 10px;
-      width: 90%;
-      max-width: 100vw;
-      margin: 10px 0px;
-    }
-
-    button{
-      width: 90%;
-      margin-bottom: 10px;
-    }
   }
 }

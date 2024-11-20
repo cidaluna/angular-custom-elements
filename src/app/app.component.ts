@@ -17,17 +17,17 @@ export class AppComponent {
 
   // Criando arrays de botões
   buttons1 = [
-    { isOutlined: false, isDisabled: true, btnColor: 'primary', btnText: 'Teste Cida', onClick: () => this.handleNext() },
+    { isOutlined: false, isDisabled: true, btnColor: 'primary', btnText: 'Teste Cida', action: () => this.handleNext() },
   ];
 
   buttons2 = [
-    { isOutlined: true, isDisabled: false, btnColor: 'primary', btnText: 'Cancelar', onClick: () => this.handleBack()},
-    { isOutlined: false, isDisabled: false, btnColor: 'primary', btnText: 'Continuar', onClick: () => this.handleNext() }
+    { isOutlined: true, isDisabled: false, btnColor: 'primary', btnText: 'Cancelar', action: () => this.handleBack()},
+    { isOutlined: false, isDisabled: false, btnColor: 'primary', btnText: 'Continuar', action: () => this.handleNext() }
   ];
 
   buttons3 = [
-    { isOutlined: true, isDisabled: false, btnColor: 'accent', btnText: 'Cancelar', onClick: () => this.handleBack() },
-    { isOutlined: false, isDisabled: false, btnColor: 'accent', btnText: 'Continuar', onClick: () => this.handleNext() }
+    { isOutlined: true, isDisabled: false, btnColor: 'accent', btnText: 'Cancelar', action: () => this.handleBack() },
+    { isOutlined: false, isDisabled: true, btnColor: 'accent', btnText: 'Continuar', action: () => this.handleNext() }
   ];
 
   handleNext() {

@@ -1,21 +1,25 @@
-<button
-  *ngIf="isOutlined; else raisedButton"
-  mat-stroked-button
-  [disabled]="isDisabled"
-  [color]="getValidatedColor()"
-  (click)="onClick()"
->
-  {{ btnText }}
-</button>
+<div class="wrapper-group-buttons">
+  @for (btn of btnConfig; track btn; let index = $index) {
 
-<ng-template #raisedButton>
-  <button
-    mat-raised-button
-    [disabled]="isDisabled"
-    [color]="getValidatedColor()"
-    (click)="onClick()"
-  >
-    {{ btnText }}
-  </button>
-</ng-template>
+    @if(btn.isOutlined){
+      <button
+        mat-stroked-button
+        [disabled]="btn.isDisabled"
+        [color]="getValidatedColor(index)"
+        (click)="onClick(index)"
+        >
+        {{ btn.btnText }}
+      </button>
+    }@else {
+      <button
+        mat-raised-button
+        [disabled]="btn.isDisabled"
+        [color]="getValidatedColor(index)"
+        (click)="onClick(index)"
+        >
+        {{ btn.btnText }}
+    </button>
+    }
 
+  }
+</div>

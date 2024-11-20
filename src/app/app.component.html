@@ -1,69 +1,21 @@
-<section class="container">
+<section class="section">
   <!--
-  <h1 class="title">Custom angular/material buttons</h1>
-
-  <div class="group-buttons">
     <button mat-stroked-button color="primary">Voltar</button>
     <button mat-raised-button color="primary">Prosseguir</button>
-  </div>
-  <div class="group-buttons">
-    <button mat-stroked-button color="primary">Voltar</button>
-    <button mat-flat-button disabled>Prosseguir</button>
-  </div>
-  <div class="group-buttons">
-    <button mat-raised-button color="primary">Ir para o Login</button>
-  </div>
-  <div class="group-buttons">
-    <button mat-raised-button disabled>Redefinir senha</button>
-  </div>
-  <br>
   -->
-  <h1>Customizando botões no Angular</h1>
+  <h1 class="title">Customizando botões no Angular</h1>
 
-  @if(buttons1.length > 0){
-    <div class="group-buttons">
-      @for (button of buttons1; track $index) {
-        <app-button
-        [isOutlined]="button.isOutlined"
-        [isDisabled]="button.isDisabled"
-        [btnColor]="button.btnColor"
-        [btnText]="button.btnText"
-        [ngStyle]="{'width': buttons1.length === 1 ? '100%' : 'auto'}"
-        (buttonClick)="button.onClick()"
-        ></app-button>
-      }
-  </div>
-  }
+    <app-button
+      [btnConfig]="buttons1"
+    ></app-button>
 
-  @if(buttons2.length > 0){
-    <div class="group-buttons">
-      @for (button of buttons2; track $index) {
-        <app-button
-        [isOutlined]="button.isOutlined"
-        [isDisabled]="button.isDisabled"
-        [btnColor]="button.btnColor"
-        [btnText]="button.btnText"
-        [ngStyle]="{'width': buttons2.length === 1 ? '100%' : 'auto'}"
-        (buttonClick)="button.onClick()"
-        ></app-button>
-      }
-  </div>
-  }
+    <app-button
+      [btnConfig]="buttons2"
+    ></app-button>
 
-  @if(buttons3.length > 0){
-    <div class="group-buttons">
-      @for (button of buttons3; track $index) {
-        <app-button
-        [isOutlined]="button.isOutlined"
-        [isDisabled]="button.isDisabled"
-        [btnColor]="button.btnColor"
-        [btnText]="button.btnText"
-        [ngStyle]="{'width': buttons3.length === 1 ? '100%' : 'auto'}"
-        (buttonClick)="button.onClick()"
-        ></app-button>
-      }
-  </div>
-  }
+    <app-button
+      [btnConfig]="buttons3"
+    ></app-button>
 
 </section>
 

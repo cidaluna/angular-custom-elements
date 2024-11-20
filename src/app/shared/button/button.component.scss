@@ -1,5 +1,34 @@
-button{
-  text-align: center;
-  width: 100%;
+.wrapper-group-buttons{
+  background-color: #fff;
+  width: 700px;
+  display: flex;
+  justify-content: space-between;
+  border: 2px solid black;
+  padding: 50px;
+  margin: 10px;
+
+  .mat-mdc-outlined-button {
+    border-color: currentColor;
+    border-style: solid;
+    border-width: 1px;
+  }
 }
+
+// @media (max-width: 768px) {
+//   .group-buttons {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     padding: 10px;
+//     width: 90%;
+//     max-width: 100vw;
+//     margin: 10px 0px;
+//   }
+
+//   button{
+//     width: 90%;
+//     margin-bottom: 10px;
+//   }
+// }
+
 
