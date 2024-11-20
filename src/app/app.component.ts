@@ -22,12 +22,17 @@ export class AppComponent {
 
   buttons2 = [
     { isOutlined: true, isDisabled: false, btnColor: 'primary', btnText: 'Cancelar', action: () => this.handleBack()},
+    { isOutlined: false, isDisabled: false, btnColor: 'primary', btnText: 'Continuar', action: () => this.handleNext() },
     { isOutlined: false, isDisabled: false, btnColor: 'primary', btnText: 'Continuar', action: () => this.handleNext() }
   ];
 
   buttons3 = [
     { isOutlined: true, isDisabled: false, btnColor: 'accent', btnText: 'Cancelar', action: () => this.handleBack() },
     { isOutlined: false, isDisabled: true, btnColor: 'accent', btnText: 'Continuar', action: () => this.handleNext() }
+  ];
+
+  buttons4 = [
+    { isOutlined: false, isDisabled: false, btnColor: 'accent', btnText: 'Continuar', action: () => this.handleNext() }
   ];
 
   handleNext() {

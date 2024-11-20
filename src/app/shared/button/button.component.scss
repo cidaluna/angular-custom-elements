@@ -1,11 +1,13 @@
 .wrapper-group-buttons{
-  background-color: #fff;
-  width: 700px;
+  background-color: #f3f8ff;
+  width: 100vw;
+  height: auto;
   display: flex;
-  border: 2px solid black;
-  padding: 20px;
-  margin: 10px;
-  gap: 20px;
+  padding: 50px 0px;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  margin-top: 10px;
+  gap: 16px;
 
   .mat-mdc-outlined-button {
     border-color: currentColor;

@@ -16,6 +16,6 @@ Projeto Angular para customizar elementos em páginas Web.
 
 Tela de botões do Angular Material customizados:
 
-![Customizando botões do Angular Material](./src/assets/custom-buttons-angular-material.PNG)
+![Customizando botões do Angular Material](./src/assets/custom-buttons-angular-material-Cida.PNG)
 
 

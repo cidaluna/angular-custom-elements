@@ -18,14 +18,14 @@ export interface ButtonConfig{
 })
 export class ButtonComponent {
 
-  isFull: boolean = false;
+  //isFull: boolean = false;
 
   private _listButtons: ButtonConfig[] = [];
 
   @Input()
   set btnConfig(arrayBtn: ButtonConfig[]){
     this._listButtons = arrayBtn;
-    this.isFull = (this._listButtons.length === 1) ? true : false;
+   // this.isFull = (this._listButtons.length === 1) ? true : false;
   }
 
   get btnConfig(){
