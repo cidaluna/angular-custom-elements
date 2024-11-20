@@ -1,101 +1,84 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EventEmitter } from '@angular/core';
-import { ButtonComponent } from './button.component';
+import { ButtonComponent, ButtonConfig } from './button.component';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
 
 describe('ButtonComponent', () => {
   let component: ButtonComponent;
   let fixture: ComponentFixture<ButtonComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ButtonComponent]
-    })
-    .compileComponents();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ButtonComponent,MatButtonModule, CommonModule],
+    });
 
     fixture = TestBed.createComponent(ButtonComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create button component', () => {
     expect(component).toBeTruthy();
   });
 
-
-describe('Input Properties', () => {
-  it('deve ter "btnColor" definido como "primary" por padrão', () => {
-    expect(component.btnColor).toBe('primary');
+  it('should set btnConfig correctly and update isFull', () => {
+    const arrayButtonsMock: ButtonConfig[] = [
+      { btnText: 'Button 1', btnColor: 'primary', isOutlined: false, isDisabled: false, action: () => {} }
+    ];
+    // Define o btnConfig
+    component.btnConfig = arrayButtonsMock;
+    // Verifica se o _listButtons foi atualizado
+    expect(component['btnConfig']).toEqual(arrayButtonsMock);
+    // Verifica se isFull foi atualizado corretamente
+    expect(component.isFull).toBeTrue();
+    // Testa com mais de 1 botão
+    component.btnConfig = [
+      { btnText: 'Button 1', btnColor: 'primary', isOutlined: false, isDisabled: false, action: () => {} },
+      { btnText: 'Button 2', btnColor: 'accent', isOutlined: true, isDisabled: true, action: () => {} }
+    ];
+    // Verifica se isFull foi ajustado corretamente para false
+    expect(component.isFull).toBeFalse();
   });
 
-  it('deve aceitar um valor para "btnColor"', () => {
-    component.btnColor = 'accent';
-    expect(component.btnColor).toBe('accent');
+  it('should return the correct validated color', () => {
+    const mockButtons: ButtonConfig[] = [
+      { btnText: 'Button 1', btnColor: 'primary', isOutlined: false, isDisabled: false, action: () => {} },
+      { btnText: 'Button 2', btnColor: 'accent', isOutlined: false, isDisabled: false, action: () => {} },
+      { btnText: 'Button 3', btnColor: 'warn', isOutlined: false, isDisabled: false, action: () => {} },
+      { btnText: 'Button 4', btnColor: 'invalidColor', isOutlined: false, isDisabled: false, action: () => {} }
+    ];
+
+    component.btnConfig = mockButtons;
+
+    expect(component.getValidatedColor(0)).toBe('primary');
+    expect(component.getValidatedColor(1)).toBe('accent');
+    expect(component.getValidatedColor(2)).toBe('warn');
+    // Testa com um botão que tem cor inválida, deve retornar 'primary'
+    expect(component.getValidatedColor(3)).toBe('primary');
   });
 
-  it('deve aceitar um valor para "btnText"', () => {
-    component.btnText = 'Submit';
-    expect(component.btnText).toBe('Submit');
-  });
+  it('should emit buttonClick event and call the button action when the button is enabled', () => {
+    // Spying on the button action
+    const buttonActionSpy = jasmine.createSpy();
 
-  it('deve aceitar valores para "isOutlined" e "isDisabled"', () => {
-    component.isOutlined = true;
-    component.isDisabled = false;
+    // Setup: criando o botão configurado
+    const mockButtons: ButtonConfig[] = [
+      { btnText: 'Button 1', btnColor: 'primary', isOutlined: false, isDisabled: false, action: buttonActionSpy },
+    ];
 
-    expect(component.isOutlined).toBeTrue();
-    expect(component.isDisabled).toBeFalse();
-  });
-});
+    component.btnConfig = mockButtons;
 
-describe('getValidatedColor()', () => {
-  it('deve retornar "primary" se "btnColor" for "primary"', () => {
-    component.btnColor = 'primary';
-    expect(component.getValidatedColor()).toBe('primary');
-  });
-
-  it('deve retornar "accent" se "btnColor" for "accent"', () => {
-    component.btnColor = 'accent';
-    expect(component.getValidatedColor()).toBe('accent');
-  });
-
-  it('deve retornar "warn" se "btnColor" for "warn"', () => {
-    component.btnColor = 'warn';
-    expect(component.getValidatedColor()).toBe('warn');
-  });
-
-  it('deve retornar "primary" para cores inválidas', () => {
-    component.btnColor = 'invalid';
-    expect(component.getValidatedColor()).toBe('primary');
-  });
-
-});
-
-describe('onClick()', () => {
-  it('deve emitir "buttonClick" quando o botão não estiver desabilitado', () => {
+    // Spy no método emit do EventEmitter output
     spyOn(component.buttonClick, 'emit');
-    component.isDisabled = false;
-    component.onClick();
-    expect(component.buttonClick.emit).toHaveBeenCalled();
-  });
 
-  it('não deve emitir "buttonClick" quando o botão estiver desabilitado', () => {
-    spyOn(component.buttonClick, 'emit');
-    component.isDisabled = true;
-    component.onClick();
-    expect(component.buttonClick.emit).not.toHaveBeenCalled();
-  });
-});
+    // Chamando o método onClick no primeiro botão
+    component.onClick(0);
 
-describe('EventEmitter', () => {
-  it('deve inicializar "buttonClick" como um EventEmitter', () => {
-    expect(component.buttonClick).toBeInstanceOf(EventEmitter);
-  });
+    // Verificando se o método emit foi chamado
+    expect(component.buttonClick.emit).toHaveBeenCalledWith(0);
 
-  it('deve emitir o evento buttonClick ao clicar no botão', () => {
-    spyOn(component.buttonClick, 'emit');
-    component.isDisabled = false;
-    component.onClick();
-    expect(component.buttonClick.emit).toHaveBeenCalled();
+    // Verificando se a ação do botão foi chamada
+    expect(buttonActionSpy).toHaveBeenCalled();
   });
-});
 
 });
