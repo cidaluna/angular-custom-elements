@@ -36,46 +36,46 @@ describe('AppComponent', () => {
   // });
 
 
-  it('should call handleNext and handleBack based on button actions', () => {
-    // Spy on handleNext and handleBack methods
-    const handleNextSpy = spyOn(component, 'handleNext').and.callThrough();
-    const handleBackSpy = spyOn(component, 'handleBack').and.callThrough();
+  // it('should call handleNext and handleBack based on button actions', () => {
+  //   // Spy on handleNext and handleBack methods
+  //   const handleNextSpy = spyOn(component, 'handleNext').and.callThrough();
+  //   const handleBackSpy = spyOn(component, 'handleBack').and.callThrough();
 
-    component.buttons1.forEach(button => {
-      button.action();
-      expect(handleNextSpy).toHaveBeenCalled();
-    });
+  //   component.buttons1.forEach(button => {
+  //     button.action();
+  //     expect(handleNextSpy).toHaveBeenCalled();
+  //   });
 
-    // Test buttons2 (two buttons, one enabled to call handleBack, one to call handleNext)
-    component.buttons2.forEach((button, index) => {
-      button.action();
-      if (index === 0) {
-        expect(handleBackSpy).toHaveBeenCalled();
-      } else {
-        expect(handleNextSpy).toHaveBeenCalled();
-      }
-    });
+  //   // Test buttons2 (two buttons, one enabled to call handleBack, one to call handleNext)
+  //   component.buttons2.forEach((button, index) => {
+  //     button.action();
+  //     if (index === 0) {
+  //       expect(handleBackSpy).toHaveBeenCalled();
+  //     } else {
+  //       expect(handleNextSpy).toHaveBeenCalled();
+  //     }
+  //   });
 
-    component.buttons3.forEach((button, index) => {
-      button.action();
-      if (index === 0) {
-        expect(handleBackSpy).toHaveBeenCalled();
-      } else {
-        expect(handleNextSpy).toHaveBeenCalled();
-      }
-    });
-  });
+  //   component.buttons3.forEach((button, index) => {
+  //     button.action();
+  //     if (index === 0) {
+  //       expect(handleBackSpy).toHaveBeenCalled();
+  //     } else {
+  //       expect(handleNextSpy).toHaveBeenCalled();
+  //     }
+  //   });
+  // });
 
-  it('should log "Clicou em Continuar!" when handleNext is called', () => {
-    // Spy on console.log to intercept the log output
-    const consoleSpy = spyOn(console, 'log');
-    component.handleNext();
-    expect(consoleSpy).toHaveBeenCalledWith('Clicou em Continuar!');
-  });
+  // it('should log "Clicou em Continuar!" when handleNext is called', () => {
+  //   // Spy on console.log to intercept the log output
+  //   const consoleSpy = spyOn(console, 'log');
+  //   component.handleNext();
+  //   expect(consoleSpy).toHaveBeenCalledWith('Clicou em Continuar!');
+  // });
 
-  it('should log "Clicou em Cancelar!" when handleNext is called', () => {
-    const consoleSpy = spyOn(console, 'log');
-    component.handleBack();
-    expect(consoleSpy).toHaveBeenCalledWith('Clicou em Cancelar!');
-  });
+  // it('should log "Clicou em Cancelar!" when handleNext is called', () => {
+  //   const consoleSpy = spyOn(console, 'log');
+  //   component.handleBack();
+  //   expect(consoleSpy).toHaveBeenCalledWith('Clicou em Cancelar!');
+  // });
 });

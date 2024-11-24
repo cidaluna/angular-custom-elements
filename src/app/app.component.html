@@ -1,25 +1,30 @@
 <section class="section">
-  <!--
-    <button mat-stroked-button color="primary">Voltar</button>
-    <button mat-raised-button color="primary">Prosseguir</button>
-  -->
-  <h1 class="title">Customizando botões no Angular</h1>
 
-    <app-button
-      [btnConfig]="buttons1"
-    ></app-button>
+    <div class="header">
+      <!-- <app-display-image [image]="infos.image"></app-display-image> -->
+      <app-display-image [imageConfig]="imageTest"></app-display-image>
+    </div>
 
-    <app-button
-      [btnConfig]="buttons2"
-    ></app-button>
+    <div class="title"> <!-- TITULO -->
+      <!-- <app-display-text [text]="infos.title"></app-display-text> -->
+      <app-display-text [textConfig]="textTitleTest"></app-display-text>
+    </div>
 
-    <app-button
-      [btnConfig]="buttons3"
-    ></app-button>
+    <div class="description"> <!-- TEXTO -->
+      <!-- <app-display-text [text]="infos.text"></app-display-text> -->
+      <app-display-text [textConfig]="textDescriptionTest"></app-display-text>
+    </div>
 
-    <app-button
-      [btnConfig]="buttons4"
-    ></app-button>
+    <div class="actions"> <!-- ARRAY DE BOTOES -->
+      <!-- <app-button
+      [btnConfig]="infos.buttons"
+      ></app-button> -->
+
+      <app-button
+      [btnConfig]="buttonsTest"
+      ></app-button>
+
+    </div>
 
 </section>
 

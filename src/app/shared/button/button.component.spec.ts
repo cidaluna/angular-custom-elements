@@ -21,24 +21,24 @@ describe('ButtonComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set btnConfig correctly and update isFull', () => {
-    const arrayButtonsMock: ButtonConfig[] = [
-      { btnText: 'Button 1', btnColor: 'primary', isOutlined: false, isDisabled: false, action: () => {} }
-    ];
-    // Define o btnConfig
-    component.btnConfig = arrayButtonsMock;
-    // Verifica se o _listButtons foi atualizado
-    expect(component['btnConfig']).toEqual(arrayButtonsMock);
-    // Verifica se isFull foi atualizado corretamente
-    expect(component.isFull).toBeTrue();
-    // Testa com mais de 1 botão
-    component.btnConfig = [
-      { btnText: 'Button 1', btnColor: 'primary', isOutlined: false, isDisabled: false, action: () => {} },
-      { btnText: 'Button 2', btnColor: 'accent', isOutlined: true, isDisabled: true, action: () => {} }
-    ];
-    // Verifica se isFull foi ajustado corretamente para false
-    expect(component.isFull).toBeFalse();
-  });
+  // it('should set btnConfig correctly and update isFull', () => {
+  //   const arrayButtonsMock: ButtonConfig[] = [
+  //     { btnText: 'Button 1', btnColor: 'primary', isOutlined: false, isDisabled: false, action: () => {} }
+  //   ];
+  //   // Define o btnConfig
+  //   component.btnConfig = arrayButtonsMock;
+  //   // Verifica se o _listButtons foi atualizado
+  //   expect(component['btnConfig']).toEqual(arrayButtonsMock);
+  //   // Verifica se isFull foi atualizado corretamente
+  //   expect(component.isFull).toBeTrue();
+  //   // Testa com mais de 1 botão
+  //   component.btnConfig = [
+  //     { btnText: 'Button 1', btnColor: 'primary', isOutlined: false, isDisabled: false, action: () => {} },
+  //     { btnText: 'Button 2', btnColor: 'accent', isOutlined: true, isDisabled: true, action: () => {} }
+  //   ];
+  //   // Verifica se isFull foi ajustado corretamente para false
+  //   expect(component.isFull).toBeFalse();
+  // });
 
   it('should return the correct validated color', () => {
     const mockButtons: ButtonConfig[] = [

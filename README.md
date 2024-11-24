@@ -47,6 +47,18 @@ Projeto Angular para customizar elementos em páginas Web.
 Após isso, a aplicação estará disponível em: http://localhost:4200
 
 
+### Problema sem o proxy
+
+Se você fizer uma requisição diretamente por exemplo para http://localhost:3000/users a partir do frontend em http://localhost:4200, isso vai gerar um problema de CORS. O navegador bloqueia a requisição porque está sendo feita para um domínio diferente.
+
+### Solução com o proxy
+
+Com o proxy configurado, você faz uma chamada para http://localhost:4200/api/users, e o Angular CLI redireciona isso internamente para http://localhost:3000/users, resolvendo o problema de CORS sem precisar configurar cabeçalhos especiais no Back-end, por enquanto.
+
+### Proxy somente em ambiente de Desenvolvimento
+
+O proxy é ideal para desenvolvimento, mas em produção, as chamadas devem ser feitas diretamente para o backend real. Usar um proxy em produção pode adicionar latência e complexidade desnecessária.
+
 
 Tela de botões do Angular Material customizados:
 

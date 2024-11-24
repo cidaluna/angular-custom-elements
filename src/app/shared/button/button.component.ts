@@ -3,10 +3,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
 export interface ButtonConfig{
-  btnText: string,
-  btnColor: 'primary' | 'accent' | 'warn' | string,
-  isOutlined: boolean,  // Tipo de botão
-  isDisabled: boolean,
+  btnText: string;
+  btnColor: 'primary' | 'accent' | 'warn' | string;
+  isOutlined: boolean;  // Tipo de botão
+  isDisabled: boolean;
   action: () => void;
 }
 @Component({
