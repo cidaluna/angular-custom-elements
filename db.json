@@ -1,0 +1,50 @@
+{
+  "fluxoResponseSuccess": {
+    "status": "success",
+    "title": "Este é titulo de sucesso!",
+    "text": "Lorem ipsum teste sucesso",
+    "image": "",
+    "buttons": [
+      {
+        "isOutlined": false,
+        "isDisabled": true,
+        "btnColor": "primary",
+        "btnText": "Cancelar"
+      },
+      {
+        "isOutlined": false,
+        "isDisabled": true,
+        "btnColor": "primary",
+        "btnText": "Continuar"
+      }
+    ]
+  },
+  "fluxoResponseError": {
+    "status": "error",
+    "title": "Este é titulo de error!",
+    "text": "Lorem ipsum teste error",
+    "image": "",
+    "buttons": [
+      {
+        "isOutlined": false,
+        "isDisabled": true,
+        "btnColor": "primary",
+        "btnText": "Cancelar"
+      }
+    ]
+  },
+  "fluxoResponseWarning": {
+    "status": "warning",
+    "title": "Este é titulo de warning!",
+    "text": "Lorem ipsum teste warning",
+    "image": "",
+    "buttons": [
+      {
+        "isOutlined": true,
+        "isDisabled": false,
+        "btnColor": "primary",
+        "btnText": "Cancelar"
+      }
+    ]
+  }
+}
