@@ -1,5 +1,10 @@
 import { Component, Input } from '@angular/core';
 
+export interface ImageConfig{
+  imgSrc: string;
+  imgAlt: string;
+}
+
 @Component({
   selector: 'app-display-image',
   standalone: true,
@@ -8,14 +13,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './display-image.component.scss'
 })
 export class DisplayImageComponent {
-  private _image!: string;
-
-  @Input() set imageConfig(value: string) {
-    this._image = value;
-  }
-
-  get imageConfig(){
-    return this._image;
-  }
+  @Input() imageConfig!: ImageConfig | undefined;
 
 }
