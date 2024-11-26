@@ -66,3 +66,4 @@ Tela de botões do Angular Material customizados:
 
 Tela com layout reutilizável:
 
+![Customizando layout reutilizável](./src/assets/custom-layout-image-title-text-buttons-angular-Cida-Luna-Frontend-Developer.PNG)
