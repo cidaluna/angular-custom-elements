@@ -23,8 +23,8 @@ export class ButtonComponent {
   private _listButtons: ButtonConfig[] = [];
 
   @Input()
-  set btnConfig(arrayBtn: ButtonConfig[]){
-    this._listButtons = arrayBtn;
+  set btnConfig(arrayBtn: ButtonConfig[] | undefined){
+    this._listButtons = arrayBtn ?? [];
    // this.isFull = (this._listButtons.length === 1) ? true : false;
   }
 
@@ -37,7 +37,7 @@ export class ButtonComponent {
   // Validar a cor
   getValidatedColor(index: number): string {
     const allowedColors = ['primary', 'accent', 'warn'];
-    const color = this.btnConfig[index].btnColor;
+    const color = this.btnConfig? this.btnConfig[index].btnColor : 'primary';
     return allowedColors.includes(color) ? color : 'primary';
   }
 
