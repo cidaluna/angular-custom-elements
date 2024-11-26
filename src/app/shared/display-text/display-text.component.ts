@@ -11,9 +11,10 @@ import { Component, Input } from '@angular/core';
 export class DisplayTextComponent {
 
   private _text!: string;
+  @Input() styleType!: string;
 
-  @Input() set textConfig(value: string) {
-    this._text = value;
+  @Input() set textConfig(value: string | undefined) {
+    this._text = value ?? '';
   }
 
   get textConfig(){
