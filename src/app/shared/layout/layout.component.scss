@@ -1,0 +1,25 @@
+.layout{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 700px;
+  margin: 0 auto;
+  margin-top: 10px;
+  height: auto;
+  padding: 2rem;
+  background-color: #f1f1f1;
+  border: 2px solid black;
+  border-radius: 20px;
+
+  .layout-image,
+  .layout-title,
+  .layout-description,
+  .layout-buttons{
+    //border: 1px solid gray;
+    //padding: 1rem 0;
+    //background-color: white;
+    width: 98%;
+    margin-bottom: 10px;
+  }
+}

@@ -1,0 +1,18 @@
+<section class="layout">
+  <div class="layout-image">
+    <app-display-image [imageConfig]="infos?.image"></app-display-image>
+  </div>
+
+  <div class="layout-title">
+    <app-display-text [textConfig]="infos?.title" styleType="title"></app-display-text>
+  </div>
+
+  <div class="layout-description">
+    <app-display-text [textConfig]="infos?.text" styleType="text"></app-display-text>
+  </div>
+
+  <div class="layout-buttons">
+    <app-button [btnConfig]="infos?.buttons"></app-button>
+  </div>
+
+</section>
