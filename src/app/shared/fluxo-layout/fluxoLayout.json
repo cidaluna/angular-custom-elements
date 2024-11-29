@@ -1,0 +1,44 @@
+{
+  "fluxoResponseSuccess":
+    {
+      "status": "success",
+      "title": "Este é titulo de sucesso do fluxo Layout JSON!",
+      "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "image": {
+        "imgSrc": "/assets/icons/success.svg",
+        "imgAlt": "Test Alt"
+      },
+      "buttons": [
+        {
+          "isOutlined": true,
+          "isDisabled": false,
+          "btnColor": "primary",
+          "btnText": "Cancelar"
+        },
+        {
+          "isOutlined": false,
+          "isDisabled": false,
+          "btnColor": "primary",
+          "btnText": "Continuar"
+        }
+      ]
+    },
+  "fluxoResponseWarning":
+    {
+      "status": "warning",
+      "title": "Este é titulo de warning do fluxo Layout JSON!",
+      "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "image": {
+        "imgSrc": "/assets/icons/warning.svg",
+        "imgAlt": "Test Alt"
+      },
+      "buttons": [
+        {
+          "isOutlined": false,
+          "isDisabled": false,
+          "btnColor": "primary",
+          "btnText": "Cancelar"
+        }
+      ]
+    }
+}

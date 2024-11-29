@@ -1,0 +1,18 @@
+@if (response){
+  <section class="layout">
+    <div class="layout__image">
+      <img [src]="response.image.imgSrc" [alt]="response.image.imgAlt" />
+    </div>
+    <div class="layout__title">
+      <h1>{{ response.title }}</h1>
+    </div>
+    <div class="layout__description">
+      <p>{{ response.text }}</p>
+    </div>
+    <div class="layout__buttons">
+      @if (response.buttons) {
+        <app-button [btnConfig]="buttons2"></app-button>
+      }
+    </div>
+  </section>
+}
