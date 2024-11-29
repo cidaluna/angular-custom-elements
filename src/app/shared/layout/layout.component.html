@@ -1,18 +1,31 @@
-<section class="layout">
-  <div class="layout-image">
+<!-- <section class="layout">
+  <div class="layout__image">
     <app-display-image [imageConfig]="infos?.image"></app-display-image>
   </div>
 
-  <div class="layout-title">
+  <div class="layout__title">
     <app-display-text [textConfig]="infos?.title" styleType="title"></app-display-text>
   </div>
 
-  <div class="layout-description">
+  <div class="layout__description">
     <app-display-text [textConfig]="infos?.text" styleType="text"></app-display-text>
   </div>
 
-  <div class="layout-buttons">
+  <div class="layout__buttons">
     <app-button [btnConfig]="infos?.buttons"></app-button>
   </div>
+</section> -->
 
+<section class="layout">
+  <div class="layout__image">
+    <app-display-image [imageConfig]="infos.image"></app-display-image>
+  </div>
+
+  <div class="layout__texts">
+    <app-dynamic-text></app-dynamic-text>
+  </div>
+
+  <div class="layout__buttons">
+    <app-button [btnConfig]="infos.buttons"></app-button>
+  </div>
 </section>

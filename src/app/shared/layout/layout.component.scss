@@ -12,10 +12,11 @@
   border: 2px solid black;
   border-radius: 20px;
 
-  .layout-image,
-  .layout-title,
-  .layout-description,
-  .layout-buttons{
+  &__image,
+  &__title,
+  &__description,
+  &__texts,
+  &__buttons{
     //border: 1px solid gray;
     //padding: 1rem 0;
     //background-color: white;

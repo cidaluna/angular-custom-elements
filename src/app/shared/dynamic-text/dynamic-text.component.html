@@ -1,0 +1,26 @@
+@for (item of texts; track item) {
+  <div class="texts">
+    @switch (item.tag) {
+      @case('h1'){
+        <div class="texts__h1">
+          <h1>{{ item.content }}</h1>
+        </div>
+      }
+      @case('h2'){
+        <div class="texts__h2">
+          <h2>{{ item.content }}</h2>
+        </div>
+      }
+      @case('span'){
+        <div class="texts__span">
+          <span>{{ item.content }}</span>
+        </div>
+      }
+      @default{
+        <div class="texts__p">
+          <p>{{ item.content }}</p>
+        </div>
+      }
+    }
+  </div>
+}

@@ -7,12 +7,13 @@ import { DisplayTextComponent } from '../display-text/display-text.component';
 import { DisplayImageComponent } from '../display-image/display-image.component';
 import { IFluxoResponse } from '../../models/fluxoResponse.interface';
 import { FluxoResponseService } from '../../services/fluxoReponse.service';
+import { DynamicTextComponent } from "../dynamic-text/dynamic-text.component";
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, MatButtonModule, ButtonComponent,
-    DisplayTextComponent, DisplayImageComponent],
+  imports: [CommonModule, MatButtonModule, ButtonComponent,
+    DisplayImageComponent, DynamicTextComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })
@@ -49,11 +50,11 @@ export class LayoutComponent {
   }
 
   // teste botoes
-  handleNext() {
-    console.log('Clicou em Continuar!');
-  }
+  // handleNext() {
+  //   console.log('Clicou em Continuar!');
+  // }
 
-  handleBack() {
-    console.log('Clicou em Cancelar!');
-  }
+  // handleBack() {
+  //   console.log('Clicou em Cancelar!');
+  // }
 }
