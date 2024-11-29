@@ -4,7 +4,6 @@ import arquivoJson from './fluxoLayout.json';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { ButtonComponent, ButtonConfig } from '../button/button.component';
-import { DisplayImageComponent } from '../display-image/display-image.component';
 
 @Component({
   selector: 'app-fluxo-layout',
@@ -22,7 +21,17 @@ export class FluxoLayoutComponent implements OnChanges {
 
   // Método que carrega o dado correspondente do JSON
   load(): void {
-    this.response = (arquivoJson as any)[this.status] || null;
+    const dataResponse = (arquivoJson as any)[this.status] || null;
+
+  if (dataResponse) {
+    // Adiciona uma função básica (ou mock) para a ação de cada botão
+    dataResponse.buttons = dataResponse.buttons.map((button: ButtonConfig) => ({
+      ...button,
+      action: jasmine.createSpy('action') // Usando jasmine.createSpy para simular a função
+    }));
+  }
+
+  this.response = dataResponse;
   }
 
   // Detecta mudanças no valor de `status` para recarregar os dados

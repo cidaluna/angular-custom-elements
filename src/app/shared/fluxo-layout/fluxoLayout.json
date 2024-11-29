@@ -13,13 +13,15 @@
           "isOutlined": true,
           "isDisabled": false,
           "btnColor": "primary",
-          "btnText": "Cancelar"
+          "btnText": "Cancelar",
+          "action": "() => {}"
         },
         {
           "isOutlined": false,
           "isDisabled": false,
           "btnColor": "primary",
-          "btnText": "Continuar"
+          "btnText": "Continuar",
+          "action": "() => {}"
         }
       ]
     },
