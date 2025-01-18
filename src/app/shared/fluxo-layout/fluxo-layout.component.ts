@@ -27,7 +27,7 @@ export class FluxoLayoutComponent implements OnChanges {
     // Adiciona uma função básica (ou mock) para a ação de cada botão
     dataResponse.buttons = dataResponse.buttons.map((button: ButtonConfig) => ({
       ...button,
-      action: jasmine.createSpy('action') // Usando jasmine.createSpy para simular a função
+      action: () => {} //jasmine.createSpy('action') // Usando jasmine.createSpy para simular a função
     }));
   }
 

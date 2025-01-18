@@ -19,6 +19,7 @@
 
 .full-width{
   button{
+    min-width: 150px;
     width: 100%; //ok
     word-break: break-all; //ok
   }
