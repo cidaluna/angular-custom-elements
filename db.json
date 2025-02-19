@@ -40,5 +40,24 @@
           "btnText": "Cancelar"
         }
       ]
+    },
+    "books":
+    [
+    {
+      "id": "1234",
+      "report": "Teste do Relatório XYZ",
+      "status": "Ativo",
+      "startDate": "18/02/2025",
+      "endDate": "19/02/2025",
+      "exibDate": "20/02/2025"
+    },
+    {
+      "id": "1111",
+      "report": "Relatório ABC",
+      "status": "Ativo",
+      "startDate": "18/02/2025",
+      "endDate": "19/02/2025",
+      "exibDate": "20/02/2025"
     }
+  ]
 }

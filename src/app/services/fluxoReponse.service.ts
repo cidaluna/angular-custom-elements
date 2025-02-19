@@ -9,10 +9,10 @@ import { IFluxoResponse } from '../models/fluxoResponse.interface';
 })
 export class FluxoResponseService {
 
-  private apiUrl = `${environment.apiUrl}/fluxoResponseSuccess`; // Usar a URL do environment
-  private apiUrlWarning = `${environment.apiUrl}/fluxoResponseWarning`; // Usar a URL do environment
+  private readonly apiUrl = `${environment.apiUrl}/fluxoResponseSuccess`; // Usar a URL do environment
+  private readonly apiUrlWarning = `${environment.apiUrl}/fluxoResponseWarning`; // Usar a URL do environment
 
-  constructor(private _http: HttpClient) { }
+  constructor(private readonly _http: HttpClient) { }
 
   getFluxoResponseSuccess(): Observable<IFluxoResponse>{
     const headers: HttpHeaders = new HttpHeaders({
