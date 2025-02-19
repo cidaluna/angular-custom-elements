@@ -1,0 +1,66 @@
+<div class="form-container">
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <div class="input-group">
+      <div class="input-field">
+        <label for="id">Id</label>
+        <input id="id" formControlName="id" type="text" />
+      </div>
+
+      <div class="input-field">
+        <label for="report">Nome relatório</label>
+        <input id="report" formControlName="report" type="text" />
+      </div>
+
+      <div class="input-field">
+        <label for="status">Status</label>
+        <input id="status" formControlName="status" type="text" />
+      </div>
+
+      <div class="input-field">
+        <label for="startDate">Data início</label>
+        <input id="startDate" formControlName="startDate" type="text" />
+      </div>
+
+      <div class="input-field">
+        <label for="endDate">Data fim</label>
+        <input id="endDate" formControlName="endDate" type="text" />
+      </div>
+
+      <div class="input-field">
+        <label for="exibDate">Data exibição</label>
+        <input id="exibDate" formControlName="exibDate" type="text" />
+      </div>
+    </div>
+
+    <div class="button-container">
+      <button type="submit" [disabled]="!isFormValid()">Pesquisar</button>
+    </div>
+  </form>
+  <br>
+  <div class="results-table" *ngIf="books.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Relatório</th>
+          <th>Status</th>
+          <th>Data início</th>
+          <th>Data Fim</th>
+          <th>Data Exibição</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of books">
+          <td>{{ item.id }}</td>
+          <td>{{ item.report }}</td>
+          <td>{{ item.status }}</td>
+          <td>{{ item.startDate }}</td>
+          <td>{{ item.endDate }}</td>
+          <td>{{ item.exibDate }}</td>
+          <td>icones</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
