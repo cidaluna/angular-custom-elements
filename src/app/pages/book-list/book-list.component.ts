@@ -55,7 +55,8 @@ export class BookListComponent implements OnInit {
   // Método para buscar os livros na API
   searchReport(nome: string): Observable<any> {
     console.log('searchReport: ', nome);
-    const url = `${this.baseUrl}?report=${nome}`;
+    const url = `${this.baseUrl}?report_like=${nome.trim()}`;
+
     return this.http.get<any[]>(url).pipe(
       catchError(error => {
         console.error('Erro ao buscar livros:', error);
@@ -67,12 +68,18 @@ export class BookListComponent implements OnInit {
   // Função chamada ao submeter o formulário
   onSubmit(): void {
     const nome = this.searchForm.get('report')?.value.trim();
+    console.log('Pesquisando por nome:', nome); // Log de depuração
     if (nome && nome.length > 2) {
+
       console.log('onSubmit: ', nome);
       this.searchReport(nome).subscribe((data: any) => {
-        this.books = data;
+        console.log('Dados recebidos:', data); // Verifique os dados recebidos da API
+
+        // Aplica um filtro exato após a busca
+      this.books = data.filter((book: any) => book.report === nome); // Aqui fazemos a correspondência exata
       });
     } else {
+      console.log('Nome inválido ou muito curto');
       this.books = []; // Limpa a tabela se o nome não for válido
     }
   }
