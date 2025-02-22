@@ -1,0 +1,39 @@
+[
+  {
+    "idCampanha": 1,
+    "nomeCampanha": "Campanha A Mock",
+    "nomeRelatorio": "Relatório A",
+    "dataInicio": "2025-01-01",
+    "dataFim": "2025-01-31",
+    "dataInicioExibicao": "2025-01-05",
+    "dataFimExibicao": "2025-01-20",
+    "DocumentosClientes": [
+      {
+        "PossuiContrato": true,
+        "idDocumento": 101,
+        "NomeDocumento": "Contrato A"
+      },
+      {
+        "PossuiContrato": false,
+        "idDocumento": 102,
+        "NomeDocumento": "Contrato B"
+      }
+    ]
+  },
+  {
+    "idCampanha": 2,
+    "nomeCampanha": "Campanha B Mock",
+    "nomeRelatorio": "Relatório B",
+    "dataInicio": "2025-02-01",
+    "dataFim": "2025-02-28",
+    "dataInicioExibicao": "2025-02-05",
+    "dataFimExibicao": "2025-02-20",
+    "DocumentosClientes": [
+      {
+        "PossuiContrato": true,
+        "idDocumento": 103,
+        "NomeDocumento": "Contrato C"
+      }
+    ]
+  }
+]

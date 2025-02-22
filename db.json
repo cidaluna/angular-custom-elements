@@ -43,21 +43,58 @@
     },
     "books":
     [
-    {
-      "id": "1234",
-      "report": "Teste do Relatório XYZ",
-      "status": "Ativo",
-      "startDate": "18/02/2025",
-      "endDate": "19/02/2025",
-      "exibDate": "20/02/2025"
-    },
-    {
-      "id": "1111",
-      "report": "Relatório ABC",
-      "status": "Ativo",
-      "startDate": "18/02/2025",
-      "endDate": "19/02/2025",
-      "exibDate": "20/02/2025"
-    }
+      {
+        "idCampanha": 1,
+        "nomeCampanha": "Campanha A Json Server",
+        "nomeRelatorio": "Relatório A",
+        "dataInicio": "2025-01-01",
+        "dataFim": "2025-01-31",
+        "dataInicioExibicao": "2025-01-05",
+        "dataFimExibicao": "2025-01-20",
+        "documentosClientes": [
+          {
+            "possuiContrato": true,
+            "idDocumento": 101,
+            "nomeDocumento": "Contrato A"
+          },
+          {
+            "possuiContrato": false,
+            "idDocumento": 102,
+            "nomeDocumento": "Contrato B"
+          }
+        ]
+      },
+      {
+        "idCampanha": 2,
+        "nomeCampanha": "Campanha B Json Server",
+        "nomeRelatorio": "Relatório B",
+        "dataInicio": "2025-02-01",
+        "dataFim": "2025-02-28",
+        "dataInicioExibicao": "2025-02-05",
+        "dataFimExibicao": "2025-02-20",
+        "documentosClientes": [
+          {
+            "possuiContrato": true,
+            "idDocumento": 103,
+            "nomeDocumento": "Contrato B1"
+          }
+        ]
+      },
+      {
+        "idCampanha": 3,
+        "nomeCampanha": "Campanha C Json Server",
+        "nomeRelatorio": "Relatório C",
+        "dataInicio": "2025-03-01",
+        "dataFim": "2025-03-31",
+        "dataInicioExibicao": "2025-02-05",
+        "dataFimExibicao": "2025-02-24",
+        "documentosClientes": [
+          {
+            "possuiContrato": true,
+            "idDocumento": 103,
+            "nomeDocumento": "Contrato C20"
+          }
+        ]
+      }
   ]
 }

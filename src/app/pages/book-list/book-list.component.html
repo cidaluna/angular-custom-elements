@@ -1,63 +1,72 @@
 <div class="form-container">
+  <div *ngIf="loading">Carregando...</div>
   <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
     <div class="input-group">
       <div class="input-field">
-        <label for="id">Id</label>
-        <input id="id" formControlName="id" type="text" />
+        <label for="nomeCampanha">Nome Campanha</label>
+        <input id="nomeCampanha" formControlName="nomeCampanha" type="text" />
       </div>
 
       <div class="input-field">
-        <label for="report">Nome relatório</label>
-        <input id="report" formControlName="report" type="text" />
+        <label for="nomeRelatorio">Nome relatório</label>
+        <input id="nomeRelatorio" formControlName="nomeRelatorio" type="text" />
       </div>
 
       <div class="input-field">
-        <label for="status">Status</label>
-        <input id="status" formControlName="status" type="text" />
+        <label for="nomeDocumento">Nome Documento</label>
+        <input id="nomeDocumento" formControlName="nomeDocumento" type="text" />
       </div>
 
       <div class="input-field">
-        <label for="startDate">Data início</label>
-        <input id="startDate" formControlName="startDate" type="text" />
+        <label for="possuiContrato">Possui Contrato</label>
+        <input id="possuiContrato" formControlName="possuiContrato" type="text" />
       </div>
 
       <div class="input-field">
-        <label for="endDate">Data fim</label>
-        <input id="endDate" formControlName="endDate" type="text" />
+        <label for="dataInicio">Data início</label>
+        <input id="dataInicio" formControlName="dataInicio" type="text" />
       </div>
 
       <div class="input-field">
-        <label for="exibDate">Data exibição</label>
-        <input id="exibDate" formControlName="exibDate" type="text" />
+        <label for="dataFim">Data fim</label>
+        <input id="dataFim" formControlName="dataFim" type="text" />
       </div>
     </div>
 
     <div class="button-container">
-      <button type="submit">Pesquisar</button>
+      <button id="form-search-button" type="submit" [disabled]="!searchForm.valid">Pesquisar</button>
     </div>
   </form>
   <br>
-  <div class="results-table" *ngIf="books.length > 0">
+  <div class="results-table" *ngIf="filteredBooks.length > 0">
     <table>
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Relatório</th>
-          <th>Status</th>
-          <th>Data início</th>
+          <th>Nome Campanha</th>
+          <th>Nome Relatório</th>
+          <th>Nome Documento</th>
+          <th>Possui Contrato</th>
+          <th>Data Início</th>
           <th>Data Fim</th>
-          <th>Data Exibição</th>
           <th>Ações</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of books">
-          <td>{{ item.id }}</td>
-          <td>{{ item.report }}</td>
-          <td>{{ item.status }}</td>
-          <td>{{ item.startDate }}</td>
-          <td>{{ item.endDate }}</td>
-          <td>{{ item.exibDate }}</td>
+        <tr *ngFor="let item of filteredBooks">
+          <td>{{ item.nomeCampanha }}</td>
+          <td>{{ item.nomeRelatorio }}</td>
+          <td>
+            <div *ngFor="let doc of item.documentosClientes">
+              {{ doc.nomeDocumento }}
+            </div>
+          </td>
+          <td>
+            <div *ngFor="let doc of item.documentosClientes">
+              {{ doc.possuiContrato }}
+            </div>
+          </td>
+          <td>{{ item.dataInicio | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ item.dataFim | date: 'dd/MM/yyyy' }}</td>
           <td>icones</td>
         </tr>
       </tbody>

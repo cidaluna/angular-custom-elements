@@ -5,10 +5,10 @@ import { FluxoLayoutComponent } from './shared/fluxo-layout/fluxo-layout.compone
 export const routes: Routes = [
   {
     path: '',
-    component: FluxoLayoutComponent
+    component: BookListComponent
   },
   {
-    path: 'book-list',
-    component: BookListComponent
+    path: 'fluxo',
+    component: FluxoLayoutComponent
   }
 ];
