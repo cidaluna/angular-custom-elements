@@ -45,7 +45,7 @@
     [
       {
         "id": 1,
-        "nomeBook": "Book A Json Server",
+        "nomeBook": "1 Book A Json Server",
         "nomeRelatorio": "Relatório A",
         "dataInicio": "2025-01-01",
         "dataFim": "2025-01-31",
@@ -66,7 +66,7 @@
       },
       {
         "id": 2,
-        "nomeBook": "Book B Json Server",
+        "nomeBook": "2 Book B Json Server",
         "nomeRelatorio": "Relatório B",
         "dataInicio": "2025-02-01",
         "dataFim": "2025-02-28",
@@ -82,7 +82,7 @@
       },
       {
         "id": 3,
-        "nomeBook": "Book C Json Server",
+        "nomeBook": "3 Book C Json Server",
         "nomeRelatorio": "Relatório C",
         "dataInicio": "2025-03-01",
         "dataFim": "2025-03-31",
@@ -93,6 +93,54 @@
             "possuiContrato": true,
             "idDocumento": 103,
             "nomeDocumento": "Contrato C20"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "nomeBook": "4 Book D Json Server",
+        "nomeRelatorio": "Relatório D",
+        "dataInicio": "2025-03-01",
+        "dataFim": "2025-03-31",
+        "dataInicioExibicao": "2025-02-05",
+        "dataFimExibicao": "2025-02-24",
+        "documentosClientes": [
+          {
+            "possuiContrato": true,
+            "idDocumento": 103,
+            "nomeDocumento": "Contrato D"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "nomeBook": "5 Book E Json Server",
+        "nomeRelatorio": "Relatório E",
+        "dataInicio": "2025-03-01",
+        "dataFim": "2025-03-31",
+        "dataInicioExibicao": "2025-02-05",
+        "dataFimExibicao": "2025-02-24",
+        "documentosClientes": [
+          {
+            "possuiContrato": true,
+            "idDocumento": 111,
+            "nomeDocumento": "Contrato E"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "nomeBook": "6 Book F Json Server",
+        "nomeRelatorio": "Relatório F",
+        "dataInicio": "2025-03-01",
+        "dataFim": "2025-03-31",
+        "dataInicioExibicao": "2027-02-05",
+        "dataFimExibicao": "2027-02-24",
+        "documentosClientes": [
+          {
+            "possuiContrato": true,
+            "idDocumento": 111,
+            "nomeDocumento": "Contrato F"
           }
         ]
       }

@@ -41,12 +41,12 @@ export class BookListComponent implements OnInit, AfterViewInit {
 
   displayedColumns = ['nomeBook', 'nomeRelatorio', 'nomeDocumento', 'possuiContrato', 'dataInicio', 'dataFim', 'action'];
 
-  @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   page: number = 1; // pagina atual
-  limit: number = 5; // limite de itens por página
-  total: number = 1; // numero total de registros
+  limit: number = 10; // limite de itens por página
+  total: number | undefined = 1; // numero total de registros
 
 
   constructor(private readonly _fb: FormBuilder,
@@ -94,11 +94,12 @@ export class BookListComponent implements OnInit, AfterViewInit {
         //this.updateDataSource();
         // O total de registros é obtido através do cabeçalho 'X-Total-Count' do JSON Server
         // Verificar se os cabeçalhos existem antes de tentar acessá-los
-        const totalCountHeader = res.headers.get('X-Total-Count');
-        if (totalCountHeader) {
-          this.total = parseInt(totalCountHeader, 10);
-        }
+        // const totalCountHeader = res.headers.get('X-Total-Count');
+        // if (totalCountHeader) {
+        //   this.total = parseInt(totalCountHeader, 10);
+        // }
 
+        this.total = res.body?.length;
         console.log('All Books: ',this.allBooks);
         console.log('Filtered Books: ',this.filteredBooks);
         console.log('Total records: ',this.total);
