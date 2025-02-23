@@ -148,6 +148,9 @@
   padding-top: 10px !important;
   padding-bottom: 10px !important;
 }
+::ng-deep .mdc-line-ripple{
+  display: none !important;
+}
 
 
 
