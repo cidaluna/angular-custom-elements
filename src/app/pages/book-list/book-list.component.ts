@@ -13,6 +13,7 @@ import { catchError, finalize, map, of } from 'rxjs';
   styleUrl: './book-list.component.scss',
 })
 export class BookListComponent implements OnInit {
+  // Cida
   searchForm!: FormGroup;
   allBooks: any[] = [];
   filteredBooks: any[] = [];
@@ -33,12 +34,14 @@ export class BookListComponent implements OnInit {
   startFields(): void {
     // Inicializa o form com os campos vazios
     this.searchForm = this.fb.group({
-      nomeCampanha: [''],
+      nomeBook: [''],
       nomeRelatorio: [''],
-      nomeDocumento: [''],
-      possuiContrato: [''],
-      dataInicio: [''],
-      dataFim: [''],
+      dataInicio: [null],
+      dataFim: [null],
+      documentosClientes: this.fb.group({
+        possuiContrato: [''],
+        nomeDocumento: ['']
+      })
     });
   }
 
@@ -54,7 +57,7 @@ export class BookListComponent implements OnInit {
     this.loading = true;
 
     // Chama o serviço com um parâmetro dinâmico, por exemplo, 'nomeCampanha' e 'Campanha A'
-    this.bookService.getBooksByHeaderTeste('nomeCampanha', 'Campanha A').subscribe(
+    this.bookService.getBooksByHeaderTeste('nomeBook', 'Book A').subscribe(
       (data) => {
         this.filteredBooks = data;  // Armazena os livros retornados
         this.loading = false;  // Finaliza o carregamento
@@ -200,7 +203,7 @@ export class BookListComponent implements OnInit {
     const formValues = this.searchForm.value;
 
     if (formValues.nomeCampanha) {
-      params['nomeCampanha'] = formValues.nomeCampanha;
+      params['nomeBook'] = formValues.nomeCampanha;
     }
 
     if (formValues.nomeRelatorio) {
@@ -245,7 +248,7 @@ export class BookListComponent implements OnInit {
 }
 
  // teste(){
-    // this.searchForm.get('nomeCampanha')?.valueChanges.pipe(
+    // this.searchForm.get('nomeBook')?.valueChanges.pipe(
     //     map((value) => value.trim()), // Aplica o trim para remover espaços antes e depois
     //     filter((value) => value.length > 2), // Só envia a requisição se o nome tiver mais de 2 caracteres
     //     debounceTime(500), // Tempo de debounce para esperar após o usuário parar de digitar

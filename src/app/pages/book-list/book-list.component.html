@@ -3,33 +3,33 @@
   <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
     <div class="input-group">
       <div class="input-field">
-        <label for="nomeCampanha">Nome Campanha</label>
-        <input id="nomeCampanha" formControlName="nomeCampanha" type="text" />
+        <label for="nomeBook">Nome Book</label>
+        <input id="nomeBook" formControlName="nomeBook" type="text" />
       </div>
-
+      <!-- nao usar este componente -->
       <div class="input-field">
         <label for="nomeRelatorio">Nome relatório</label>
         <input id="nomeRelatorio" formControlName="nomeRelatorio" type="text" />
       </div>
 
-      <div class="input-field">
+      <div class="input-field" formGroupName="documentosClientes">
         <label for="nomeDocumento">Nome Documento</label>
         <input id="nomeDocumento" formControlName="nomeDocumento" type="text" />
       </div>
 
-      <div class="input-field">
+      <div class="input-field" formGroupName="documentosClientes">
         <label for="possuiContrato">Possui Contrato</label>
         <input id="possuiContrato" formControlName="possuiContrato" type="text" />
       </div>
 
       <div class="input-field">
         <label for="dataInicio">Data início</label>
-        <input id="dataInicio" formControlName="dataInicio" type="text" />
+        <input id="dataInicio" formControlName="dataInicio" type="date" />
       </div>
 
       <div class="input-field">
         <label for="dataFim">Data fim</label>
-        <input id="dataFim" formControlName="dataFim" type="text" />
+        <input id="dataFim" formControlName="dataFim" type="date" />
       </div>
     </div>
 
@@ -42,7 +42,7 @@
     <table>
       <thead>
         <tr>
-          <th>Nome Campanha</th>
+          <th>Nome Book</th>
           <th>Nome Relatório</th>
           <th>Nome Documento</th>
           <th>Possui Contrato</th>
@@ -53,7 +53,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of filteredBooks">
-          <td>{{ item.nomeCampanha }}</td>
+          <td>{{ item.nomeBook }}</td>
           <td>{{ item.nomeRelatorio }}</td>
           <td>
             <div *ngFor="let doc of item.documentosClientes">
