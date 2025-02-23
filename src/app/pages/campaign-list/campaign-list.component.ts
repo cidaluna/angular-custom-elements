@@ -6,7 +6,8 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {provideNativeDateAdapter} from '@angular/material/core';
+import {provideNativeDateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
+import * as moment from 'moment';
 // Importar localidade para pt-BR
 import localePt from '@angular/common/locales/pt';
 registerLocaleData(localePt);
@@ -14,7 +15,9 @@ registerLocaleData(localePt);
 @Component({
   selector: 'app-campaign-list',
   standalone: true,
-  providers: [provideNativeDateAdapter()],
+  providers: [provideNativeDateAdapter(),
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+  ],
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule],
   templateUrl: './campaign-list.component.html',
   styleUrl: './campaign-list.component.scss'
@@ -33,6 +36,7 @@ export class CampaignListComponent implements OnInit {
   ) {
     // Set the minimum to January 1st 5 years in the past and December 31st a year in the future.
     const currentYear = new Date().getFullYear();
+    // console.log("Ano atual = " + currentYear); // 2025
     this.minDateRule = new Date(currentYear - 5, 0, 1);
     this.maxDateRule = new Date(currentYear + 1, 11, 31);
   }
@@ -42,7 +46,6 @@ export class CampaignListComponent implements OnInit {
     this.startCampaigns();
   }
 
-  // ok
   startFields(): void {
     // Inicializa o form com os campos vazios
     this.campaignForm = this.fb.group({
@@ -58,7 +61,18 @@ export class CampaignListComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log('Clicou')
+    console.log('Clicou');
+    this.testStartDate(); // teste Cida
+
+  }
+
+  testStartDate(){
+    // Se existir dataInicio recupera e formata
+    if(this.campaignForm.value.dataInicio){
+      const testFormttedDate: moment.Moment = moment.utc(this.campaignForm.value.dataInicio).local();
+      this.campaignForm.value.dataInicio = testFormttedDate.format("DD-MM-YYYY") + "T:00:00:00";
+      console.log(this.campaignForm.value.dataInicio);
+    }
   }
 
   startCampaigns(){
