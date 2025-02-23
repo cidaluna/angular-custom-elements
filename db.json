@@ -41,10 +41,66 @@
         }
       ]
     },
-    "books":
+  "books":
     [
       {
-        "idCampanha": 1,
+        "id": 1,
+        "nomeBook": "Book A Json Server",
+        "nomeRelatorio": "Relatório A",
+        "dataInicio": "2025-01-01",
+        "dataFim": "2025-01-31",
+        "dataInicioExibicao": "2025-01-05",
+        "dataFimExibicao": "2025-01-20",
+        "documentosClientes": [
+          {
+            "possuiContrato": true,
+            "idDocumento": 101,
+            "nomeDocumento": "Contrato A"
+          },
+          {
+            "possuiContrato": false,
+            "idDocumento": 102,
+            "nomeDocumento": "Contrato B"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "nomeBook": "Book B Json Server",
+        "nomeRelatorio": "Relatório B",
+        "dataInicio": "2025-02-01",
+        "dataFim": "2025-02-28",
+        "dataInicioExibicao": "2025-02-05",
+        "dataFimExibicao": "2025-02-20",
+        "documentosClientes": [
+          {
+            "possuiContrato": true,
+            "idDocumento": 103,
+            "nomeDocumento": "Contrato B1"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "nomeBook": "Book C Json Server",
+        "nomeRelatorio": "Relatório C",
+        "dataInicio": "2025-03-01",
+        "dataFim": "2025-03-31",
+        "dataInicioExibicao": "2025-02-05",
+        "dataFimExibicao": "2025-02-24",
+        "documentosClientes": [
+          {
+            "possuiContrato": true,
+            "idDocumento": 103,
+            "nomeDocumento": "Contrato C20"
+          }
+        ]
+      }
+    ],
+  "campaigns":
+    [
+      {
+        "id": 1,
         "nomeCampanha": "Campanha A Json Server",
         "nomeRelatorio": "Relatório A",
         "dataInicio": "2025-01-01",
@@ -65,36 +121,127 @@
         ]
       },
       {
-        "idCampanha": 2,
+        "id": 2,
         "nomeCampanha": "Campanha B Json Server",
         "nomeRelatorio": "Relatório B",
-        "dataInicio": "2025-02-01",
-        "dataFim": "2025-02-28",
-        "dataInicioExibicao": "2025-02-05",
-        "dataFimExibicao": "2025-02-20",
+        "dataInicio": "2025-01-01",
+        "dataFim": "2025-04-18",
+        "dataInicioExibicao": "2024-01-18",
+        "dataFimExibicao": "2025-01-20",
         "documentosClientes": [
           {
             "possuiContrato": true,
-            "idDocumento": 103,
-            "nomeDocumento": "Contrato B1"
+            "idDocumento": 120,
+            "nomeDocumento": "Contrato A"
           }
         ]
       },
       {
-        "idCampanha": 3,
+        "id": 3,
         "nomeCampanha": "Campanha C Json Server",
         "nomeRelatorio": "Relatório C",
         "dataInicio": "2025-03-01",
-        "dataFim": "2025-03-31",
-        "dataInicioExibicao": "2025-02-05",
-        "dataFimExibicao": "2025-02-24",
+        "dataFim": "2026-12-31",
+        "dataInicioExibicao": "2025-05-05",
+        "dataFimExibicao": "2026-02-24",
         "documentosClientes": [
           {
             "possuiContrato": true,
             "idDocumento": 103,
-            "nomeDocumento": "Contrato C20"
+            "nomeDocumento": "Contrato C18"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "nomeCampanha": "Campanha D Json Server",
+        "nomeRelatorio": "Relatório D",
+        "dataInicio": "2024-03-01",
+        "dataFim": "2025-12-31",
+        "dataInicioExibicao": "2025-03-05",
+        "dataFimExibicao": "2025-12-30",
+        "documentosClientes": [
+          {
+            "possuiContrato": true,
+            "idDocumento": 103,
+            "nomeDocumento": "Contrato D18"
           }
         ]
       }
+    ],
+  "periodics":
+  [
+    {
+      "position": 1,
+      "name": "Hydrogen",
+      "weight": 1.008,
+      "symbol": "H"
+    },
+    {
+      "position": 2,
+      "name": "Helium",
+      "weight": 4.0026,
+      "symbol": "He"
+    },
+    {
+      "position": 3,
+      "name": "Lithium",
+      "weight": 6.94,
+      "symbol": "Li"
+    },
+    {
+      "position": 4,
+      "name": "Beryllium",
+      "weight": 9.0122,
+      "symbol": "Be"
+    },
+    {
+      "position": 5,
+      "name": "Boron",
+      "weight": 10.81,
+      "symbol": "B"
+    },
+    {
+      "position": 6,
+      "name": "Carbon",
+      "weight": 12.011,
+      "symbol": "C"
+    },
+    {
+      "position": 7,
+      "name": "Nitrogen",
+      "weight": 14.007,
+      "symbol": "N"
+    },
+    {
+      "position": 8,
+      "name": "Oxygen",
+      "weight": 15.999,
+      "symbol": "O"
+    },
+    {
+      "position": 9,
+      "name": "Fluorine",
+      "weight": 18.998,
+      "symbol": "F"
+    },
+    {
+      "position": 10,
+      "name": "Neon",
+      "weight": 20.180,
+      "symbol": "Ne"
+    },
+    {
+      "position": 11,
+      "name": "Sodium",
+      "weight": 22.990,
+      "symbol": "Na"
+    },
+    {
+      "position": 12,
+      "name": "Magnesium",
+      "weight": 24.305,
+      "symbol": "Mg"
+    }
   ]
 }
