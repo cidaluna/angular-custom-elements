@@ -24,18 +24,23 @@
       </div>
 
       <div class="input-field-custom">
-        <label for="possuiContrato">Data Início</label>
+        <label for="dataInicio">Data Início</label>
         <mat-form-field class="example-full-width">
           <input matInput [min]="minDateRule" [max]="maxDateRule"
-          [matDatepicker]="picker" id="dataInicio" formControlName="dataInicio">
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          [matDatepicker]="picker1" id="dataInicio" formControlName="dataInicio">
+          <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
       </div>
 
-      <div class="input-field">
-        <label for="dataFim">Data fim</label>
-        <input id="dataFim" formControlName="dataFim" type="date" datetime="dd-MM-yyyy" />
+      <div class="input-field-custom">
+        <label for="dataFim">Data Fim</label>
+        <mat-form-field class="example-full-width">
+          <input matInput [min]="minDateRule" [max]="maxDateRule"
+          [matDatepicker]="picker2" id="dataFim" formControlName="dataFim">
+          <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
       </div>
 
       <div class="button-container">
