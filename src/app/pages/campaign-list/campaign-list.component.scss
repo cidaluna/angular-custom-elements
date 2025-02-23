@@ -1,0 +1,161 @@
+/* app.component.scss */
+
+.form-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+
+  .input-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .input-field {
+    flex: 1;
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      transition: border 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #007bff;
+    }
+  }
+
+  .icons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    .icon-container {
+      flex: 1;
+      min-width: 100px;
+
+      button {
+        width: 100%;
+        padding: 10px 20px;
+        font-size: 14px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        i {
+          margin-right: 5px;
+        }
+
+        &:hover {
+          background-color: #007bff;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .button-container {
+    flex: 1;
+    min-width: 220px;
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+
+      &:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .results-table {
+    margin-top: 20px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th, td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f4f4f4;
+      }
+    }
+  }
+}
+
+/* Datas */
+.input-field-custom {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+}
+::ng-deep .mdc-text-field{
+  position: inherit !important;
+}
+::ng-deep .mdc-text-field--filled{
+    border: 1px solid #ccc;
+    border-top-left-radius: 4px !important;
+    border-top-right-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+    height: 41px !important;
+}
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled){
+  background-color: transparent !important;
+}
+
+
+
+
+@media (max-width: 768px) {
+  .form-container {
+    padding: 15px;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  .input-field, .button-container, .icon-container {
+    width: 100%;
+  }
+}

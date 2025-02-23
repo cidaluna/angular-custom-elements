@@ -1,1 +1,81 @@
-<p>campaign-list works!</p>
+<div class="form-container">
+  <!-- **** Usar este componente Campaign **** -->
+  <div *ngIf="loading">Carregando...</div>
+  <form [formGroup]="campaignForm" (ngSubmit)="onSubmit()">
+    <div class="input-group">
+      <div class="input-field">
+        <label for="nomeCampanha">Mentoria - Nome Campanha</label>
+        <input id="nomeCampanha" formControlName="nomeCampanha" type="text" />
+      </div>
+
+      <div class="input-field">
+        <label for="nomeRelatorio">Nome relatório</label>
+        <input id="nomeRelatorio" formControlName="nomeRelatorio" type="text" />
+      </div>
+
+      <div class="input-field" formGroupName="documentosClientes">
+        <label for="nomeDocumento">Nome Documento</label>
+        <input id="nomeDocumento" formControlName="nomeDocumento" type="text" />
+      </div>
+
+      <div class="input-field" formGroupName="documentosClientes">
+        <label for="possuiContrato">Possui Contrato</label>
+        <input id="possuiContrato" formControlName="possuiContrato" type="text" />
+      </div>
+
+      <div class="input-field-custom">
+        <label for="possuiContrato">Data Início</label>
+        <mat-form-field class="example-full-width">
+          <input matInput [min]="minDateRule" [max]="maxDateRule"
+          [matDatepicker]="picker" id="dataInicio" formControlName="dataInicio">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="input-field">
+        <label for="dataFim">Data fim</label>
+        <input id="dataFim" formControlName="dataFim" type="date" datetime="dd-MM-yyyy" />
+      </div>
+
+      <div class="button-container">
+        <button id="form-search-button" type="submit" [disabled]="!campaignForm.valid">Pesquisar</button>
+      </div>
+  </div>
+  </form>
+  <br>
+  <div class="results-table" *ngIf="filteredCampaigns.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome Campanha</th>
+          <th>Nome Relatório</th>
+          <th>Nome Documento</th>
+          <th>Possui Contrato</th>
+          <th>Data Início</th>
+          <th>Data Fim</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filteredCampaigns">
+          <td>{{ item.nomeCampanha }}</td>
+          <td>{{ item.nomeRelatorio }}</td>
+          <td>
+            <div *ngFor="let doc of item.documentosClientes">
+              {{ doc.nomeDocumento }}
+            </div>
+          </td>
+          <td>
+            <div *ngFor="let doc of item.documentosClientes">
+              {{ doc.possuiContrato }}
+            </div>
+          </td>
+          <td>{{ item.dataInicio | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ item.dataFim | date: 'dd/MM/yyyy' }}</td>
+          <td>icones</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
