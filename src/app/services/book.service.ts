@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Book } from '../models/book';
@@ -12,13 +12,22 @@ export class BookService {
   err: any;
   constructor(private readonly http: HttpClient) {}
 
-  /**
-   * Método que faz a requisição GET com parâmetros dinâmicos enviados via cabeçalho
-   *
-   * @param param - Nome do parâmetro (por exemplo, 'nomeCampanha')
-   * @param value - Valor do parâmetro (por exemplo, 'Campanha A')
-   * @returns Observable com a resposta da API
-   */
+  getBooks(page: number = 1, limit: number = 10): Observable<HttpResponse<Book[]>> {
+    const url = `${this.apiUrl}?_page=${page}&_limit=${limit}`;
+    return this.http.get<Book[]>(url, { observe: 'response' });
+  }
+
+
+  // Método para obter os livros paginados
+  // getBooks(page: number, limit: number): Observable<HttpResponse<Book[]>> {
+  //   const params = new HttpParams()
+  //     .set('_page', page.toString())
+  //     .set('_limit', limit.toString());
+
+  //   return this.http.get<any>(this.apiUrl, { params });
+  // }
+
+
   getBooksByHeaderTeste(param: string, value: string): Observable<any> {
     let headers = new HttpHeaders();
 

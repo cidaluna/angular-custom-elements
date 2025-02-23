@@ -22,15 +22,26 @@
         <input id="possuiContrato" formControlName="possuiContrato" type="text" />
       </div>
 
-      <div class="input-field">
-        <label for="dataInicio">Data início</label>
-        <input id="dataInicio" formControlName="dataInicio" type="date" />
+      <div class="input-field-custom">
+        <label for="dataInicio">Data Início</label>
+        <mat-form-field class="example-full-width">
+          <input matInput [min]="minDateRule" [max]="maxDateRule"
+          [matDatepicker]="picker1" id="dataInicio" formControlName="dataInicio">
+          <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
       </div>
 
-      <div class="input-field">
-        <label for="dataFim">Data fim</label>
-        <input id="dataFim" formControlName="dataFim" type="date" />
+      <div class="input-field-custom">
+        <label for="dataFim">Data Fim</label>
+        <mat-form-field class="example-full-width">
+          <input matInput [min]="minDateRule" [max]="maxDateRule"
+          [matDatepicker]="picker2" id="dataFim" formControlName="dataFim">
+          <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
       </div>
+
     </div>
 
     <div class="button-container">
@@ -38,38 +49,70 @@
     </div>
   </form>
   <br>
-  <div class="results-table" *ngIf="filteredBooks.length > 0">
-    <table>
-      <thead>
-        <tr>
-          <th>Nome Book</th>
-          <th>Nome Relatório</th>
-          <th>Nome Documento</th>
-          <th>Possui Contrato</th>
-          <th>Data Início</th>
-          <th>Data Fim</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of filteredBooks">
-          <td>{{ item.nomeBook }}</td>
-          <td>{{ item.nomeRelatorio }}</td>
-          <td>
-            <div *ngFor="let doc of item.documentosClientes">
-              {{ doc.nomeDocumento }}
-            </div>
-          </td>
-          <td>
-            <div *ngFor="let doc of item.documentosClientes">
-              {{ doc.possuiContrato }}
-            </div>
-          </td>
-          <td>{{ item.dataInicio | date: 'dd/MM/yyyy' }}</td>
-          <td>{{ item.dataFim | date: 'dd/MM/yyyy' }}</td>
-          <td>icones</td>
-        </tr>
-      </tbody>
+  <div class="results-table" *ngIf="filteredBooks.length > 0; else noResults">
+    <!-- Início da Tabela - Cida Estudos -->
+    <table mat-table [dataSource]="dataSourceBooks" matSort>
+
+      <ng-container matColumnDef="nomeBook">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome Livro </th>
+        <td mat-cell *matCellDef="let row"> {{ row.nomeBook }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nomeRelatorio">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome Relatório </th>
+        <td mat-cell *matCellDef="let row"> {{ row.nomeRelatorio }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nomeDocumento">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome Documento </th>
+        <td mat-cell *matCellDef="let row">
+          <div *ngFor="let item of row.documentosClientes">
+            {{ item.nomeDocumento }}
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="possuiContrato">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Possui Contrato </th>
+        <td mat-cell *matCellDef="let row">
+          <div *ngFor="let item of row.documentosClientes">
+            {{ item.possuiContrato }}
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataInicio">
+        <th mat-header-cell *matHeaderCellDef>Data Início </th>
+        <td mat-cell *matCellDef="let row"> {{ row.dataInicio }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataFim">
+        <th mat-header-cell *matHeaderCellDef>Data Fim </th>
+        <td mat-cell *matCellDef="let row"> {{ row.dataFim }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Ações</th>
+        <td mat-cell *matCellDef="let row"> icones </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
     </table>
+
+    <mat-paginator [length]="total"
+                   [pageSize]="limit"
+                   [pageSizeOptions]="[2, 5, 10, 50]"
+                   (page)="onPageChange($event)">
+    </mat-paginator>
+    <!-- Fim Tabela com Paginação -->
+
   </div>
+  <!-- Caso não haja dados filtrados -->
+  <ng-template #noResults>
+    <div class="no-data-message">
+      Nenhum dado encontrado.
+    </div>
+  </ng-template>
 </div>

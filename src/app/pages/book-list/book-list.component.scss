@@ -116,6 +116,43 @@
   }
 }
 
+/* Datas */
+.input-field-custom {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+}
+::ng-deep .mdc-text-field{
+  position: inherit !important;
+}
+::ng-deep .mdc-text-field--filled{
+    border: 1px solid #ccc;
+    border-top-left-radius: 4px !important;
+    border-top-right-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+    height: 41px !important;
+}
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled){
+  background-color: transparent !important;
+}
+::ng-deep .mat-mdc-form-field-infix{
+  min-height: 41px !important;
+  max-height: 41px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+::ng-deep .mdc-line-ripple{
+  display: none !important;
+}
+
+
 @media (max-width: 768px) {
   .form-container {
     padding: 15px;

@@ -1,73 +1,134 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { BookService } from '../../services/book.service';
-import { catchError, finalize, map, of } from 'rxjs';
+import { CommonModule, registerLocaleData } from '@angular/common';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {provideNativeDateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+// Importar localidade para pt-BR
+import localePt from '@angular/common/locales/pt';
+import { Book } from '../../models/book';
+import * as moment from 'moment';
+import { HttpResponse } from '@angular/common/http';
+registerLocaleData(localePt);
 
 
 @Component({
   selector: 'app-book-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  providers: [provideNativeDateAdapter(),
+      { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+    ],
+    imports: [CommonModule, ReactiveFormsModule, MatPaginator, MatSort,
+    MatFormFieldModule, MatInputModule, MatDatepickerModule, MatTableModule],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.scss',
 })
-export class BookListComponent implements OnInit {
-  // Cida
+export class BookListComponent implements OnInit, AfterViewInit {
+  // Testes By Cida
   searchForm!: FormGroup;
-  allBooks: any[] = [];
-  filteredBooks: any[] = [];
+  dataSourceBooks = new MatTableDataSource<Book>();
+  allBooks!: Book[];
+  filteredBooks!: Book[];
   error: any;
   loading = false; // Controla o estado de carregamento
+  minDateRule: Date;
+  maxDateRule: Date;
 
-  constructor(private readonly fb: FormBuilder,
-              private readonly bookService: BookService) {}
+  displayedColumns = ['nomeBook', 'nomeRelatorio', 'nomeDocumento', 'possuiContrato', 'dataInicio', 'dataFim', 'action'];
+
+  @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  page: number = 1; // pagina atual
+  limit: number = 5; // limite de itens por página
+  total: number = 1; // numero total de registros
+
+
+  constructor(private readonly _fb: FormBuilder,
+              private readonly _bookService: BookService,
+  ) {
+    // Set the minimum to January 1st 5 years in the past and December 31st a year in the future.
+    const currentYear = new Date().getFullYear();
+    this.minDateRule = new Date(currentYear - 5, 0, 1);
+    this.maxDateRule = new Date(currentYear + 1, 11, 31);
+  }
+
+  ngAfterViewInit() {
+    this.dataSourceBooks.paginator = this.paginator;
+    this.dataSourceBooks.sort = this.sort;
+  }
 
   ngOnInit() {
     this.startFields();
-    //this.loadBooks();
-    this.loadBooksTeste();
-    this.verifyFields();
+    this.startBooks();
   }
 
   // ok
   startFields(): void {
     // Inicializa o form com os campos vazios
-    this.searchForm = this.fb.group({
+    this.searchForm = this._fb.group({
       nomeBook: [''],
       nomeRelatorio: [''],
       dataInicio: [null],
       dataFim: [null],
-      documentosClientes: this.fb.group({
+      documentosClientes: this._fb.group({
         possuiContrato: [''],
         nomeDocumento: ['']
       })
     });
   }
 
+
+  startBooks(page: number = 1) {
+    this._bookService.getBooks(page, this.limit).subscribe({
+      next: (res: HttpResponse<Book[]>) => {  // Garantir que a resposta é um array de Books
+        const books = res.body || []; // A resposta real vem no body
+        this.allBooks = books;  // Armazenar todos os livros
+        this.filteredBooks = books;  // Inicializar os dados filtrados com todos os livros
+        this.dataSourceBooks = new MatTableDataSource<Book>(this.filteredBooks);  // Configurar o dataSource
+        //this.updateDataSource();
+        // O total de registros é obtido através do cabeçalho 'X-Total-Count' do JSON Server
+        // Verificar se os cabeçalhos existem antes de tentar acessá-los
+        const totalCountHeader = res.headers.get('X-Total-Count');
+        if (totalCountHeader) {
+          this.total = parseInt(totalCountHeader, 10);
+        }
+
+        console.log('All Books: ',this.allBooks);
+        console.log('Filtered Books: ',this.filteredBooks);
+        console.log('Total records: ',this.total);
+        console.log('Response: ',res);
+        console.log('Headers: ', res.headers);
+      },
+      error: (err) =>{
+        console.log(err);
+      },
+      complete: () => {
+      }
+    });
+  }
+
+  // Método para ser chamado quando o usuário mudar de página
+  onPageChange(event: any): void {
+    this.page = event.pageIndex;
+    this.limit = event.pageSize;
+    this.startBooks(this.page + 1); // Lembre-se que a página começa em 0
+  }
+
   //ok
   // loadBooks(): void {
-  //   this.bookService.getAll().subscribe(data => {
+  //   this._bookService.getAll().subscribe(data => {
   //     this.allBooks = data;
   //     this.filteredBooks = data; // Inicializa com todos os dados (TODO: montar uma paginação com 10 itens 5 por pagina)
   //   });
   // }
 
-  loadBooksTeste(): void {
-    this.loading = true;
 
-    // Chama o serviço com um parâmetro dinâmico, por exemplo, 'nomeCampanha' e 'Campanha A'
-    this.bookService.getBooksByHeaderTeste('nomeBook', 'Book A').subscribe(
-      (data) => {
-        this.filteredBooks = data;  // Armazena os livros retornados
-        this.loading = false;  // Finaliza o carregamento
-      },
-      (err) => {
-        this.error = 'Erro ao carregar livros: ' + err.message; // Exibe erro
-        this.loading = false;
-      }
-    );
-  }
 
   // ok
   verifyFields(): void {
@@ -90,6 +151,9 @@ export class BookListComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log('Clicou');
+    //this.testStartEndDate(); // teste Cida
+
     if (this.searchForm.valid) {
       this.loading = true;
 
@@ -97,18 +161,30 @@ export class BookListComponent implements OnInit {
       const formValues = this.searchForm.value;
       const filters: { [key: string]: string } = {};
 
+
       Object.keys(formValues).forEach((key) => {
         const value = formValues[key];
         if (value) {
+            // Formatar as datas se estiverem presentes
+            if (formValues.dataInicio) {
+              const dataInicio = formValues.dataInicio;
+              const formattedDataInicio = moment.utc(dataInicio).local().format("DD/MM/YYYY");
+              filters['dataInicio'] = formattedDataInicio;
+            }
+
+            if (formValues.dataFim) {
+              const dataFim = formValues.dataFim;
+              const formattedDataFim = moment.utc(dataFim).local().format("DD/MM/YYYY");
+              filters['dataFim'] = formattedDataFim;
+            }
           filters[key] = value;  // Adiciona o filtro apenas se o valor não for vazio
         }
       });
       console.log('formValues:',formValues);
       console.log('filters:',filters);
 
-
       // Chama o serviço passando os filtros
-      this.bookService.getBooksWithFilters(filters).subscribe(
+      this._bookService.getBooksWithFilters(filters).subscribe(
         (books) => {
           this.filteredBooks = books;
           this.loading = false;
@@ -122,78 +198,30 @@ export class BookListComponent implements OnInit {
   }
 
 
-  // onSubmit(): void {
-  //   if (this.searchForm.valid) {
-  //     this.loading = true;
-
-  //     // Coleta os valores do formulário
-  //     const formValues = this.searchForm.value;
-
-  //     // Filtra os parâmetros que possuem valores
-  //     const filterParams = Object.keys(formValues).reduce((params: any, key) => {
-  //       if (formValues[key]) {
-  //         params[key] = formValues[key];
-  //       }
-  //       return params;
-  //     }, {});
-
-  //     console.log('onSubmit com filterParams = ', filterParams);
-  //     // Chama o método do serviço para buscar livros com os parâmetros
-  //     this.bookService.getBooksByHeader(filterParams).pipe(
-  //       finalize(() => {
-  //         this.loading = false; // Finaliza o carregamento
-  //       }),
-  //       catchError((error) => {
-  //         this.loading = false; // Finaliza o carregamento
-  //         console.error('Erro ao buscar livros:', error);
-  //         return of([]); // Retorna um array vazio em caso de erro
-  //       })
-  //     ).subscribe((books) => {
-  //       this.filteredBooks = books; // Atualiza os livros filtrados
-  //       console.log('Livros filtrados:', this.filteredBooks);
-  //     });
-  //   }
-  // }
-
-  // Método que será chamado quando o formulário for enviado
-  // onSubmit(): void {
-  //   if (this.searchForm.valid) {
-  //     console.log('is Valid? ',this.searchForm.valid);
-  //     this.loading = true;
-
-  //     // Constrói os parâmetros com base no valor do formulário
-  //     const filterParams = this.buildFilterParams();
-  //     console.log('Params = ',filterParams);
+  // Testes By Cida
 
 
-  //     // Inicia a requisição com os parâmetros de busca
-  //     this.bookService.getBooksByParamsTeste(filterParams).pipe(
-  //       // Manipula os dados recebidos da API
-  //       map(response => {
-  //         console.log('Entrou no onSubmit com response = ',response);
+  testStartEndDate(){
+      // Se existir dataInicio recupera e formata
+      if(this.searchForm.value.dataInicio){
+        const dataInicio = this.searchForm.value.dataInicio;
+        if(dataInicio){
+          const testFormttedDate: moment.Moment = moment.utc(dataInicio).local();
+          const formatted = testFormttedDate.format("DD-MM-YYYY");
+          console.log(formatted);
+        }
+      }
+      // Se existir dataFim recupera e formata
+      if(this.searchForm.value.dataFim){
+        const dataFim = this.searchForm.value.dataFim;
+        if(dataFim){
+          const testFormttedDate: moment.Moment = moment.utc(dataFim).local();
+          const formatted = testFormttedDate.format("DD-MM-YYYY");
+          console.log(formatted);
+        }
+      }
+    }
 
-  //         // Aqui você pode manipular ou filtrar a resposta da API antes de atribuí-la
-  //         return response.filter((item: any) => this.applyFilters(item));
-  //       }),
-  //       // Trata erros na requisição
-  //       catchError(error => {
-  //         console.error('Erro ao buscar livros', error);
-  //         this.loading = false;
-  //         return of([]); // Retorna um array vazio em caso de erro
-  //       }),
-  //       // Finaliza o carregamento após a requisição, independentemente de sucesso ou falha
-  //       finalize(() => {
-  //         this.loading = false;
-  //         console.log('Chamou finalize ');
-
-  //       })
-  //     ).subscribe((books) => {
-  //       // Atualiza os livros filtrados com a resposta
-  //       this.filteredBooks = books;
-  //       console.log('Livros filtrados recebidos:', this.filteredBooks);
-  //     });
-  //   }
-  // }
 
   // Constrói os parâmetros com base nos campos de entrada
   private buildFilterParams(): any {
@@ -202,8 +230,8 @@ export class BookListComponent implements OnInit {
     // Coleta os valores do formulário
     const formValues = this.searchForm.value;
 
-    if (formValues.nomeCampanha) {
-      params['nomeBook'] = formValues.nomeCampanha;
+    if (formValues.nomeBook) {
+      params['nomeBook'] = formValues.nomeBook;
     }
 
     if (formValues.nomeRelatorio) {
@@ -236,10 +264,10 @@ export class BookListComponent implements OnInit {
   private applyFilters(item: any): boolean {
     const formValues = this.searchForm.value;
 
-    console.log('FormValues = ',formValues.nomeCampanha.value);
-    console.log('ItemValues = ',item.nomeCampanha);
+    console.log('FormValues = ',formValues.nomeBook.value);
+    console.log('ItemValues = ',item.nomeBook);
     return (
-      item.nomeCampanha.toLowerCase().includes(formValues.nomeCampanha.toLowerCase()) ||
+      item.nomeBook.toLowerCase().includes(formValues.nomeBook.toLowerCase()) ||
       item.nomeRelatorio.toLowerCase().includes(formValues.nomeRelatorio.toLowerCase()) ||
       item.documentosClientes.nomeDocumento.toLowerCase().includes(formValues.nomeDocumento.toLowerCase())
     );
