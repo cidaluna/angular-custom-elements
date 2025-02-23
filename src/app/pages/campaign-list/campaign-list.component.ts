@@ -62,16 +62,25 @@ export class CampaignListComponent implements OnInit {
 
   onSubmit(){
     console.log('Clicou');
-    this.testStartDate(); // teste Cida
+    this.testStartEndDate(); // teste Cida
 
   }
 
-  testStartDate(){
+  testStartEndDate(){
     // Se existir dataInicio recupera e formata
     if(this.campaignForm.value.dataInicio){
       const dataInicio = this.campaignForm.value.dataInicio;
       if(dataInicio){
         const testFormttedDate: moment.Moment = moment.utc(dataInicio).local();
+        const formatted = testFormttedDate.format("DD-MM-YYYY");
+        console.log(formatted);
+      }
+    }
+    // Se existir dataFim recupera e formata
+    if(this.campaignForm.value.dataFim){
+      const dataFim = this.campaignForm.value.dataFim;
+      if(dataFim){
+        const testFormttedDate: moment.Moment = moment.utc(dataFim).local();
         const formatted = testFormttedDate.format("DD-MM-YYYY");
         console.log(formatted);
       }
