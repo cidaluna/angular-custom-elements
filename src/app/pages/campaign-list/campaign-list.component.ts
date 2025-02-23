@@ -31,12 +31,12 @@ export class CampaignListComponent implements OnInit {
   minDateRule: Date;
   maxDateRule: Date;
 
+
   constructor(private readonly fb: FormBuilder,
               private readonly campaignService: CampaignService,
   ) {
     // Set the minimum to January 1st 5 years in the past and December 31st a year in the future.
     const currentYear = new Date().getFullYear();
-    // console.log("Ano atual = " + currentYear); // 2025
     this.minDateRule = new Date(currentYear - 5, 0, 1);
     this.maxDateRule = new Date(currentYear + 1, 11, 31);
   }

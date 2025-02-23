@@ -142,7 +142,12 @@
 ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled){
   background-color: transparent !important;
 }
-
+::ng-deep .mat-mdc-form-field-infix{
+  min-height: 41px !important;
+  max-height: 41px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
 
 
 
