@@ -69,9 +69,12 @@ export class CampaignListComponent implements OnInit {
   testStartDate(){
     // Se existir dataInicio recupera e formata
     if(this.campaignForm.value.dataInicio){
-      const testFormttedDate: moment.Moment = moment.utc(this.campaignForm.value.dataInicio).local();
-      this.campaignForm.value.dataInicio = testFormttedDate.format("DD-MM-YYYY") + "T:00:00:00";
-      console.log(this.campaignForm.value.dataInicio);
+      const dataInicio = this.campaignForm.value.dataInicio;
+      if(dataInicio){
+        const testFormttedDate: moment.Moment = moment.utc(dataInicio).local();
+        const formatted = testFormttedDate.format("DD-MM-YYYY");
+        console.log(formatted);
+      }
     }
   }
 
