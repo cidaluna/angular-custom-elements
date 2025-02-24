@@ -10,13 +10,15 @@ import { HttpClient } from '@angular/common/http';
   encapsulation: ViewEncapsulation.None, // para aplicar a borda customizada no outlined
 })
 export class AppComponent {
-  http = inject(HttpClient);
 
-  constructor(){
-    this.http.get('https://jsonplaceholder.typicode.com/usershyghtdgdhjsakjdsndjfkfkfkefmfmef')
-    .subscribe((res) => {
-      console.log(res);
-    })
-  }
+  // Exemplo de interceptor cair no status 404 not found
+  // http = inject(HttpClient);
+
+  // constructor(){
+  //   this.http.get('https://jsonplaceholder.typicode.com/usershyghtdgdhjsakjdsndjfkfkfkefmfmef')
+  //   .subscribe((res) => {
+  //     console.log(res);
+  //   })
+  // }
 
   }
