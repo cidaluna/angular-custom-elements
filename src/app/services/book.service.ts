@@ -12,38 +12,30 @@ export class BookService {
   err: any;
   constructor(private readonly http: HttpClient) {}
 
+  // getBooks(page: number = 1, limit: number = 10, filters?: any): Observable<ResponsePageable> {
+  //   let url = `${this.apiUrl}?_page=${page}&_limit=${limit}`;
+
+  //   // Se filtros adicionais forem passados, inclua-os na URL
+  //   if (filters) {
+  //     for (const key in filters) {
+  //       if (filters[key]) {
+  //         url += `&${key}=${filters[key]}`;
+  //       }
+  //     }
+  //   }
+
+  //   return this.http.get<ResponsePageable>(url);
+  // }
+
+
+
+  // ok
   getBooks(page: number = 1, limit: number = 10): Observable<HttpResponse<Book[]>> {
     const url = `${this.apiUrl}?_page=${page}&_limit=${limit}`;
     return this.http.get<Book[]>(url, { observe: 'response' });
   }
 
 
-  // Método para obter os livros paginados
-  // getBooks(page: number, limit: number): Observable<HttpResponse<Book[]>> {
-  //   const params = new HttpParams()
-  //     .set('_page', page.toString())
-  //     .set('_limit', limit.toString());
-
-  //   return this.http.get<any>(this.apiUrl, { params });
-  // }
-
-
-  getBooksByHeaderTeste(param: string, value: string): Observable<any> {
-    let headers = new HttpHeaders();
-
-    // Adicionando um cabeçalho de autenticação (se necessário)
-    // headers = headers.set('Authorization', 'Basic');  // Altere para o seu token real
-
-    // Adiciona o parâmetro e seu valor no cabeçalho
-    headers = headers.set(param, value);
-
-    // Realiza a requisição GET com o cabeçalho modificado
-    return this.http.get<any>(this.apiUrl, { headers });
-  }
-
-  getAll(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl); // busca todos (montar paginção)
-  }
 
   getBooksByParam(param: string, value: string): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl).pipe(

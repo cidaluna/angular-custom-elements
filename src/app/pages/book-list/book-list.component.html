@@ -1,6 +1,6 @@
 <div class="form-container">
   <div *ngIf="loading">Carregando...</div>
-  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="searchForm">
     <div class="input-group">
       <div class="input-field">
         <label for="nomeBook">Nome Book</label>
@@ -45,7 +45,7 @@
     </div>
 
     <div class="button-container">
-      <button id="form-search-button" type="submit" [disabled]="!searchForm.valid">Pesquisar</button>
+      <button id="form-search-button" type="submit" [disabled]="!searchForm.valid" (click)="onSubmit()">Pesquisar</button>
     </div>
   </form>
   <br>

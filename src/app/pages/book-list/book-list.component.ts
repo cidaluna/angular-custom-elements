@@ -6,16 +6,15 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {provideNativeDateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 // Importar localidade para pt-BR
 import localePt from '@angular/common/locales/pt';
 import { Book } from '../../models/book';
 import * as moment from 'moment';
-import { HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 registerLocaleData(localePt);
-
 
 @Component({
   selector: 'app-book-list',
@@ -38,16 +37,14 @@ export class BookListComponent implements OnInit, AfterViewInit {
   loading = false; // Controla o estado de carregamento
   minDateRule: Date;
   maxDateRule: Date;
-
   displayedColumns = ['nomeBook', 'nomeRelatorio', 'nomeDocumento', 'possuiContrato', 'dataInicio', 'dataFim', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  page: number = 1; // pagina atual
+  currentPage: number = 1; // pagina atual
   limit: number = 10; // limite de itens por página
   total: number | undefined = 1; // numero total de registros
-
 
   constructor(private readonly _fb: FormBuilder,
               private readonly _bookService: BookService,
@@ -68,9 +65,7 @@ export class BookListComponent implements OnInit, AfterViewInit {
     this.startBooks();
   }
 
-  // ok
   startFields(): void {
-    // Inicializa o form com os campos vazios
     this.searchForm = this._fb.group({
       nomeBook: [''],
       nomeRelatorio: [''],
@@ -83,31 +78,27 @@ export class BookListComponent implements OnInit, AfterViewInit {
     });
   }
 
-
   startBooks(page: number = 1) {
     this._bookService.getBooks(page, this.limit).subscribe({
-      next: (res: HttpResponse<Book[]>) => {  // Garantir que a resposta é um array de Books
-        const books = res.body || []; // A resposta real vem no body
+      next: (response: HttpResponse<Book[]>) => {  // Garantir que a resposta é um array de Books
+        const books = response.body || []; // A resposta real vem no body
+
         this.allBooks = books;  // Armazenar todos os livros
         this.filteredBooks = books;  // Inicializar os dados filtrados com todos os livros
         this.dataSourceBooks = new MatTableDataSource<Book>(this.filteredBooks);  // Configurar o dataSource
-        //this.updateDataSource();
-        // O total de registros é obtido através do cabeçalho 'X-Total-Count' do JSON Server
-        // Verificar se os cabeçalhos existem antes de tentar acessá-los
-        // const totalCountHeader = res.headers.get('X-Total-Count');
-        // if (totalCountHeader) {
-        //   this.total = parseInt(totalCountHeader, 10);
-        // }
 
-        this.total = res.body?.length;
+        this.total = response.body?.length;
+
         console.log('All Books: ',this.allBooks);
         console.log('Filtered Books: ',this.filteredBooks);
-        console.log('Total records: ',this.total);
-        console.log('Response: ',res);
-        console.log('Headers: ', res.headers);
+        console.log('Total: ',this.total);
+        console.log('Status:', response.status);
+        console.log('Status Text:', response.statusText);
+        console.log('Headers:', response.headers);
       },
-      error: (err) =>{
-        console.log(err);
+      error: (err: HttpErrorResponse) =>{
+        console.log('Erro: ',err);
+
       },
       complete: () => {
       }
@@ -115,41 +106,30 @@ export class BookListComponent implements OnInit, AfterViewInit {
   }
 
   // Método para ser chamado quando o usuário mudar de página
-  onPageChange(event: any): void {
-    this.page = event.pageIndex;
-    this.limit = event.pageSize;
-    this.startBooks(this.page + 1); // Lembre-se que a página começa em 0
+  onPageChange(event: PageEvent) {
+    this.startBooks(event.pageIndex + 1);  // Angular paginator usa index de página a partir de 0
   }
-
-  //ok
-  // loadBooks(): void {
-  //   this._bookService.getAll().subscribe(data => {
-  //     this.allBooks = data;
-  //     this.filteredBooks = data; // Inicializa com todos os dados (TODO: montar uma paginação com 10 itens 5 por pagina)
-  //   });
-  // }
-
 
 
   // ok
-  verifyFields(): void {
-    // Observa as mudanças no formulário e habilita/desabilita o botão
-    this.searchForm.valueChanges.subscribe(() => {
-      this.formButtonState();
-    });
-  }
+  // verifyFields(): void {
+  //   // Observa as mudanças no formulário e habilita/desabilita o botão
+  //   this.searchForm.valueChanges.subscribe(() => {
+  //     this.formButtonState();
+  //   });
+  // }
 
   // ok, só que a primeira vez que faz o load ta deixando o botao habilitado, verificar depois
-  formButtonState(): void {
-    // Desabilita o botão se todos os campos estiverem vazios
-    const formValues = this.searchForm.value;
-    const isFormFilled = Object.values(formValues).some(value => value !== '');
-    // Se algum campo for preenchido, habilita o botão; caso contrário, desabilita
-    const searchButton = document.getElementById('form-search-button') as HTMLButtonElement;
-    if (searchButton) {
-      searchButton.disabled = !isFormFilled; // Desabilita o botão caso nenhum campo esteja preenchido
-    }
-  }
+  // formButtonState(): void {
+  //   // Desabilita o botão se todos os campos estiverem vazios
+  //   const formValues = this.searchForm.value;
+  //   const isFormFilled = Object.values(formValues).some(value => value !== '');
+  //   // Se algum campo for preenchido, habilita o botão; caso contrário, desabilita
+  //   const searchButton = document.getElementById('form-search-button') as HTMLButtonElement;
+  //   if (searchButton) {
+  //     searchButton.disabled = !isFormFilled; // Desabilita o botão caso nenhum campo esteja preenchido
+  //   }
+  // }
 
   onSubmit(): void {
     console.log('Clicou');
@@ -200,28 +180,26 @@ export class BookListComponent implements OnInit, AfterViewInit {
 
 
   // Testes By Cida
-
-
   testStartEndDate(){
-      // Se existir dataInicio recupera e formata
-      if(this.searchForm.value.dataInicio){
-        const dataInicio = this.searchForm.value.dataInicio;
-        if(dataInicio){
-          const testFormttedDate: moment.Moment = moment.utc(dataInicio).local();
-          const formatted = testFormttedDate.format("DD-MM-YYYY");
-          console.log(formatted);
-        }
-      }
-      // Se existir dataFim recupera e formata
-      if(this.searchForm.value.dataFim){
-        const dataFim = this.searchForm.value.dataFim;
-        if(dataFim){
-          const testFormttedDate: moment.Moment = moment.utc(dataFim).local();
-          const formatted = testFormttedDate.format("DD-MM-YYYY");
-          console.log(formatted);
-        }
+    // Se existir dataInicio recupera e formata
+    if(this.searchForm.value.dataInicio){
+      const dataInicio = this.searchForm.value.dataInicio;
+      if(dataInicio){
+        const testFormttedDate: moment.Moment = moment.utc(dataInicio).local();
+        const formatted = testFormttedDate.format("DD-MM-YYYY");
+        console.log(formatted);
       }
     }
+    // Se existir dataFim recupera e formata
+    if(this.searchForm.value.dataFim){
+      const dataFim = this.searchForm.value.dataFim;
+      if(dataFim){
+        const testFormttedDate: moment.Moment = moment.utc(dataFim).local();
+        const formatted = testFormttedDate.format("DD-MM-YYYY");
+        console.log(formatted);
+      }
+    }
+  }
 
 
   // Constrói os parâmetros com base nos campos de entrada
@@ -237,6 +215,7 @@ export class BookListComponent implements OnInit, AfterViewInit {
 
     if (formValues.nomeRelatorio) {
       params['nomeRelatorio'] = formValues.nomeRelatorio;
+    }
 
     if (formValues.nomeDocumento) {
       params['nomeDocumento'] = formValues.nomeDocumento;
@@ -258,8 +237,6 @@ export class BookListComponent implements OnInit, AfterViewInit {
     return params;
   }
 
-
-  }
 
   // Aplica os filtros de forma local
   private applyFilters(item: any): boolean {
