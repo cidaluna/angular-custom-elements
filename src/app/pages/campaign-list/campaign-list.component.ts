@@ -144,22 +144,41 @@ export class CampaignListComponent implements OnInit {
       }
 
       // Pega todas as chaves do primeiro item da API, garantindo que todas as colunas sejam exportadas
-      const columns = Object.keys(this.filteredCampaigns[0]);
+       // Obtém todas as chaves do primeiro item, ignorando `documentosClientes` (será tratado separadamente)
+      const baseColumns = Object.keys(this.filteredCampaigns[0]).filter((col: any) => col !== 'documentosClientes');
+
+      // Descobre dinamicamente os campos dentro de documentosClientes
+      const documentosKeys = ['idDocumento', 'nomeDocumento', 'possuiContrato'];
+
+      // Define todas as colunas do CSV
+      const columns = [...baseColumns, ...documentosKeys];
 
       // Cria o cabeçalho CSV usando as chaves do primeiro objeto
       const header = columns.join(';');
 
      // Mapeia os dados para gerar as linhas do CSV
-    const rows = this.filteredCampaigns.map(item =>
-      columns.map(col => {
-        const value = item[col as keyof Campaign];
+    // Mapeia os dados para gerar as linhas do CSV
+  const rows = this.filteredCampaigns.map(item =>
+    columns.map(col => {
+      if (documentosKeys.includes(col)) {
+        // Tipagem explícita para documentosClientes
+        const doc: { idDocumento?: string; nomeDocumento?: string; possuiContrato?: boolean } =
+          Array.isArray(item.documentosClientes) && item.documentosClientes.length > 0
+            ? item.documentosClientes[0]
+            : {};
 
-        // Se for um array (como documentosClientes), converte para uma string legível
-        if (Array.isArray(value)) {
-          return value.map(doc => `(${doc.nomeDocumento} - ${doc.possuiContrato ? 'Sim' : 'Não'})`).join(', ');
+        if (col === 'possuiContrato') {
+          return doc.possuiContrato ? 'Sim' : 'Não';
         }
+        return doc[col as keyof typeof doc] ?? ''; // Garante que a chave existe
+      }
 
-        return value ?? ''; // Se o campo for undefined ou null, coloca uma string vazia
+      // Formata os campos de data para "DD/MM/YYYY"
+      if (col === 'dataInicio' || col === 'dataFim') {
+        return item[col] ? moment(item[col]).format('DD/MM/YYYY') : '';
+      }
+
+      return item[col as keyof Campaign] ?? ''; // Valores padrão da campanha
       }).join(';') // Junta os valores das colunas com ponto e vírgula
     ).join('\n'); // Junta todas as linhas com quebras de linha
 
