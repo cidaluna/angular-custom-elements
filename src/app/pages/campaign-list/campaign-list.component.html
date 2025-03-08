@@ -88,7 +88,11 @@
           </td>
           <td>{{ item.dataInicio | date: 'dd/MM/yyyy' }}</td>
           <td>{{ item.dataFim | date: 'dd/MM/yyyy' }}</td>
-          <td>icones</td>
+          <td>
+            <button  id="table-button-details" mat-icon-button (click)="openDetails(item)">
+              <mat-icon>search</mat-icon>
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
