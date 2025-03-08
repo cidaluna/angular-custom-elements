@@ -29,12 +29,12 @@ export class CampaignService {
 
      // Verifica se os filtros de data foram preenchidos e formata corretamente
      if (filters.dataInicio) {
-      const formattedDate = moment.utc(filters.dataInicio).local().format('YYYY-MM-DD');
+      const formattedDate = moment(filters.dataInicio).format('YYYY-MM-DD');
       params = params.append('dataInicio', formattedDate);
     }
 
     if (filters.dataFim) {
-      const formattedDate = moment.utc(filters.dataFim).local().format('YYYY-MM-DD');
+      const formattedDate = moment(filters.dataFim).format('YYYY-MM-DD');
       params = params.append('dataFim', formattedDate);
     }
 

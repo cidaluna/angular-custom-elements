@@ -82,8 +82,8 @@ export class CampaignListComponent implements OnInit {
         nomeRelatorio: this.campaignForm.value.nomeRelatorio,
         nomeDocumento: this.campaignForm.value.documentosClientes.nomeDocumento,
         possuiContrato: this.campaignForm.value.documentosClientes.possuiContrato,
-        dataInicio: this.campaignForm.value.dataInicio ? moment.utc(this.campaignForm.value.dataInicio).local().format('YYYY-MM-DD') : null,
-        dataFim: this.campaignForm.value.dataFim ? moment.utc(this.campaignForm.value.dataFim).local().format('YYYY-MM-DD') : null
+        dataInicio: this.campaignForm.value.dataInicio ? moment(this.campaignForm.value.dataInicio).format('YYYY-MM-DD') : null,
+        dataFim: this.campaignForm.value.dataFim ? moment(this.campaignForm.value.dataFim).format('YYYY-MM-DD') : null
       };
 
       // Remove filtros vazios
