@@ -8,13 +8,13 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {provideNativeDateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
-import * as moment from 'moment';
+import moment from 'moment';
 // Importar localidade para pt-BR
 import localePt from '@angular/common/locales/pt';
 registerLocaleData(localePt);
 
 export interface Contrato {
-  value: string,
+  value: boolean,
   viewValue: string,
 }
 @Component({
@@ -36,8 +36,8 @@ export class CampaignListComponent implements OnInit {
   minDateRule: Date;
   maxDateRule: Date;
   contratos: Contrato[] = [
-    {value: '1', viewValue: 'Sim'},
-    {value: '2', viewValue: 'Não'},
+    {value: true, viewValue: 'Sim'},
+    {value: false, viewValue: 'Não'},
   ];
 
 
@@ -82,8 +82,8 @@ export class CampaignListComponent implements OnInit {
         nomeRelatorio: this.campaignForm.value.nomeRelatorio,
         nomeDocumento: this.campaignForm.value.documentosClientes.nomeDocumento,
         possuiContrato: this.campaignForm.value.documentosClientes.possuiContrato,
-        dataInicio: this.campaignForm.value.dataInicio,
-        dataFim: this.campaignForm.value.dataFim
+        dataInicio: this.campaignForm.value.dataInicio ? moment.utc(this.campaignForm.value.dataInicio).local().format('YYYY-MM-DD') : null,
+        dataFim: this.campaignForm.value.dataFim ? moment.utc(this.campaignForm.value.dataFim).local().format('YYYY-MM-DD') : null
       };
 
       // Remove filtros vazios
@@ -94,9 +94,20 @@ export class CampaignListComponent implements OnInit {
       });
 
       console.log('Filters: ', filters);
+
       this.campaignService.getCampaigns(filters).subscribe({
         next: (data) => {
-          this.filteredCampaigns = data;
+          // Converte `true` para `"Sim"` e `false` para `"Não"`
+          this.filteredCampaigns = data.map(campaign => ({
+            ...campaign,
+            dataInicio: moment(campaign.dataInicio, 'YYYY-MM-DD').toDate(),
+            dataFim: moment(campaign.dataFim, 'YYYY-MM-DD').toDate(),
+            documentosClientes: campaign.documentosClientes.map((doc: any) => ({
+              ...doc,
+              possuiContrato: doc.possuiContrato ? 'Sim' : 'Não'
+            }))
+          }));
+
           this.loading = false;
         },
         error: (err) => {
