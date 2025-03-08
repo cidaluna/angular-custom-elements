@@ -23,12 +23,10 @@
         <input id="possuiContrato" formControlName="possuiContrato" type="text" /> -->
         <mat-label>Possui contrato ?</mat-label>
         <mat-form-field>
-          <mat-select>
-            @for (contrato of contratos; track contrato) {
-              <mat-option [value]="contrato.value">
-                {{contrato.viewValue}}
-              </mat-option>
-            }
+          <mat-select formControlName="possuiContrato">
+            <mat-option *ngFor="let contrato of contratos" [value]="contrato.value">
+              {{ contrato.viewValue }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
