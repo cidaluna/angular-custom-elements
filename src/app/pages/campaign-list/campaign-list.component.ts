@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { saveAs } from 'file-saver';
 registerLocaleData(localePt);
 
 export interface Contrato {
@@ -135,4 +136,43 @@ export class CampaignListComponent implements OnInit {
       data: campaign
     });
   }
+
+  exportToCSV() {
+    if (!this.filteredCampaigns || this.filteredCampaigns.length === 0) {
+        console.warn('Nenhum dado disponível para exportação.');
+        return;
+      }
+
+      // Pega todas as chaves do primeiro item da API, garantindo que todas as colunas sejam exportadas
+      const columns = Object.keys(this.filteredCampaigns[0]);
+
+      // Cria o cabeçalho CSV usando as chaves do primeiro objeto
+      const header = columns.join(';');
+
+     // Mapeia os dados para gerar as linhas do CSV
+    const rows = this.filteredCampaigns.map(item =>
+      columns.map(col => {
+        const value = item[col as keyof Campaign];
+
+        // Se for um array (como documentosClientes), converte para uma string legível
+        if (Array.isArray(value)) {
+          return value.map(doc => `(${doc.nomeDocumento} - ${doc.possuiContrato ? 'Sim' : 'Não'})`).join(', ');
+        }
+
+        return value ?? ''; // Se o campo for undefined ou null, coloca uma string vazia
+      }).join(';') // Junta os valores das colunas com ponto e vírgula
+    ).join('\n'); // Junta todas as linhas com quebras de linha
+
+      // Concatena o cabeçalho e as linhas para formar o conteúdo completo do CSV
+      const csvContent = header + '\n' + rows;
+
+      // Adiciona o BOM para evitar problemas com caracteres acentuados no Excel
+      const bom = '\uFEFF';
+
+      // Cria um Blob com o conteúdo CSV e especifica o tipo de arquivo como UTF-8
+      const blob = new Blob([bom + csvContent], { type: 'text/csv;charset=utf-8;' });
+
+      // Faz o download do arquivo CSV
+      saveAs(blob, 'dados-filtrados.csv');
+    }
 }
