@@ -48,7 +48,6 @@ export class CampaignService {
       }
     });
 
-    console.log('Params: ', params);
     return this.httpClient.get<any[]>(this.apiUrl, { params });
   }
 }
