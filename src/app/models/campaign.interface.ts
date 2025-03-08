@@ -1,6 +1,6 @@
 // Preparando as Campanhas
 export interface Campaign {
-  idCampanha: string,
+  id: string,
   nomeCampanha: string,
   nomeRelatorio: string,
   dataInicio: Date,
