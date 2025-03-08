@@ -52,7 +52,7 @@ export class CampaignListComponent implements OnInit {
 
   ngOnInit(): void {
     this.startFields();
-    this.startCampaigns();
+    //this.startCampaigns();
   }
 
   startFields(): void {
@@ -69,9 +69,42 @@ export class CampaignListComponent implements OnInit {
     });
   }
 
-  onSubmit(){
-    console.log('Clicou');
-    this.testStartEndDate(); // teste Cida
+  onSubmit(): void {
+    console.log('Clicou em Pesquisar');
+    //this.testStartEndDate(); // teste Cida
+
+    if(this.campaignForm.valid){
+      this.loading = true;
+
+      //Pega os valores do form e organiza para passar como filtros
+      const filters: any = {
+        nomeCampanha: this.campaignForm.value.nomeCampanha,
+        nomeRelatorio: this.campaignForm.value.nomeRelatorio,
+        nomeDocumento: this.campaignForm.value.documentosClientes.nomeDocumento,
+        possuiContrato: this.campaignForm.value.documentosClientes.possuiContrato,
+        dataInicio: this.campaignForm.value.dataInicio,
+        dataFim: this.campaignForm.value.dataFim
+      };
+
+      // Remove filtros vazios
+      Object.keys(filters).forEach((key: any) => {
+        if(!filters[key]) {
+          delete filters[key];
+        }
+      });
+
+      console.log('Filters: ', filters);
+      this.campaignService.getCampaigns(filters).subscribe({
+        next: (data) => {
+          this.filteredCampaigns = data;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Erro ao realizar a busca: ',err);
+          this.loading = false;
+        }
+      });
+    }
 
   }
 
