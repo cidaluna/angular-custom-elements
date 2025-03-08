@@ -8,6 +8,8 @@ import { MatTableModule } from '@angular/material/table';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { errorInterceptor } from './core/error.interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatSelectModule} from '@angular/material/select';
+
 import { BrowserModule } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
@@ -18,6 +20,7 @@ export const appConfig: ApplicationConfig = {
     BrowserModule,
     MatTableModule,
     MatSnackBarModule,
+    MatSelectModule,
     provideHttpClient(withInterceptors([errorInterceptor])),
   ]
 };

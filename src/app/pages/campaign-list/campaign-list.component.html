@@ -19,8 +19,18 @@
       </div>
 
       <div class="input-field" formGroupName="documentosClientes">
-        <label for="possuiContrato">Possui Contrato</label>
-        <input id="possuiContrato" formControlName="possuiContrato" type="text" />
+        <!-- <label for="possuiContrato">Possui Contrato ?</label>
+        <input id="possuiContrato" formControlName="possuiContrato" type="text" /> -->
+        <mat-label>Possui contrato ?</mat-label>
+        <mat-form-field>
+          <mat-select>
+            @for (contrato of contratos; track contrato) {
+              <mat-option [value]="contrato.value">
+                {{contrato.viewValue}}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
       </div>
 
       <div class="input-field-custom">

@@ -6,19 +6,24 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 import {provideNativeDateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import * as moment from 'moment';
 // Importar localidade para pt-BR
 import localePt from '@angular/common/locales/pt';
 registerLocaleData(localePt);
 
+export interface Contrato {
+  value: string,
+  viewValue: string,
+}
 @Component({
   selector: 'app-campaign-list',
   standalone: true,
   providers: [provideNativeDateAdapter(),
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
   ],
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatInputModule, MatDatepickerModule],
   templateUrl: './campaign-list.component.html',
   styleUrl: './campaign-list.component.scss'
 })
@@ -30,6 +35,10 @@ export class CampaignListComponent implements OnInit {
   loading = false;
   minDateRule: Date;
   maxDateRule: Date;
+  contratos: Contrato[] = [
+    {value: '1', viewValue: 'Sim'},
+    {value: '2', viewValue: 'Não'},
+  ];
 
 
   constructor(private readonly fb: FormBuilder,
