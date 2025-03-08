@@ -231,6 +231,43 @@
             "nomeDocumento": "Contrato E"
           }
         ]
+      },
+      {
+        "id": 6,
+        "nomeCampanha": "Campanha F Json Server",
+        "nomeRelatorio": "Relatório F",
+        "dataInicio": "2026-01-01",
+        "dataFim": "2026-12-31",
+        "dataInicioExibicao": "2026-01-05",
+        "dataFimExibicao": "2026-12-31",
+        "documentosClientes": [
+          {
+            "possuiContrato": false,
+            "idDocumento": 222,
+            "nomeDocumento": "Contrato F"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "nomeCampanha": "Campanha G Json Server",
+        "nomeRelatorio": "Relatório G",
+        "dataInicio": "2026-05-01",
+        "dataFim": "2026-05-31",
+        "dataInicioExibicao": "2026-05-05",
+        "dataFimExibicao": "2026-05-31",
+        "documentosClientes": [
+          {
+            "possuiContrato": true,
+            "idDocumento": 154,
+            "nomeDocumento": "Contrato G1"
+          },
+          {
+            "possuiContrato": true,
+            "idDocumento": 155,
+            "nomeDocumento": "Contrato G2"
+          }
+        ]
       }
     ],
   "periodics":
