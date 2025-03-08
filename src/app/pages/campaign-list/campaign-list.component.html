@@ -61,6 +61,7 @@
     <table>
       <thead>
         <tr>
+          <th>ID</th>
           <th>Nome Campanha</th>
           <th>Nome Relatório</th>
           <th>Nome Documento</th>
@@ -72,6 +73,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of filteredCampaigns">
+          <td>{{ item.id }}</td>
           <td>{{ item.nomeCampanha }}</td>
           <td>{{ item.nomeRelatorio }}</td>
           <td>
