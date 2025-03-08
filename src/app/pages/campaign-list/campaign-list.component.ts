@@ -3,14 +3,16 @@ import { Campaign } from '../../models/campaign.interface';
 import { FormBuilder, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { CampaignService } from '../../services/campaign.service';
 import { CommonModule, registerLocaleData } from '@angular/common';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
 import {provideNativeDateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import moment from 'moment';
-// Importar localidade para pt-BR
 import localePt from '@angular/common/locales/pt';
+import { CampaignDetailsComponent } from './modal/campaign-details/campaign-details.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 registerLocaleData(localePt);
 
 export interface Contrato {
@@ -23,7 +25,7 @@ export interface Contrato {
   providers: [provideNativeDateAdapter(),
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
   ],
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatInputModule, MatDatepickerModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatInputModule, MatIconModule, MatDatepickerModule],
   templateUrl: './campaign-list.component.html',
   styleUrl: './campaign-list.component.scss'
 })
@@ -43,6 +45,7 @@ export class CampaignListComponent implements OnInit {
 
   constructor(private readonly fb: FormBuilder,
               private readonly campaignService: CampaignService,
+              private readonly dialog: MatDialog
   ) {
     // Set the minimum to January 1st 5 years in the past and December 31st a year in the future.
     const currentYear = new Date().getFullYear();
@@ -71,7 +74,6 @@ export class CampaignListComponent implements OnInit {
 
   onSubmit(): void {
     console.log('Clicou em Pesquisar');
-    //this.testStartEndDate(); // teste Cida
 
     if(this.campaignForm.valid){
       this.loading = true;
@@ -116,28 +118,6 @@ export class CampaignListComponent implements OnInit {
         }
       });
     }
-
-  }
-
-  testStartEndDate(){
-    // Se existir dataInicio recupera e formata
-    if(this.campaignForm.value.dataInicio){
-      const dataInicio = this.campaignForm.value.dataInicio;
-      if(dataInicio){
-        const testFormttedDate: moment.Moment = moment.utc(dataInicio).local();
-        const formatted = testFormttedDate.format("DD-MM-YYYY");
-        console.log(formatted);
-      }
-    }
-    // Se existir dataFim recupera e formata
-    if(this.campaignForm.value.dataFim){
-      const dataFim = this.campaignForm.value.dataFim;
-      if(dataFim){
-        const testFormttedDate: moment.Moment = moment.utc(dataFim).local();
-        const formatted = testFormttedDate.format("DD-MM-YYYY");
-        console.log(formatted);
-      }
-    }
   }
 
   startCampaigns(){
@@ -147,5 +127,12 @@ export class CampaignListComponent implements OnInit {
         this.filteredCampaigns = data;
       }
     );
+  }
+
+  openDetails(campaign: Campaign) {
+    this.dialog.open(CampaignDetailsComponent, {
+      width: '450px',
+      data: campaign
+    });
   }
 }
