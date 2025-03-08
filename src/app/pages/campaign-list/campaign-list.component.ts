@@ -55,7 +55,7 @@ export class CampaignListComponent implements OnInit {
 
   ngOnInit(): void {
     this.startFields();
-    //this.startCampaigns();
+    this.startCampaigns();
   }
 
   startFields(): void {
@@ -99,7 +99,6 @@ export class CampaignListComponent implements OnInit {
 
       this.campaignService.getCampaigns(filters).subscribe({
         next: (data) => {
-          // Converte `true` para `"Sim"` e `false` para `"Não"`
           this.filteredCampaigns = data.map(campaign => ({
             ...campaign,
             dataInicio: moment(campaign.dataInicio, 'YYYY-MM-DD').toDate(),
@@ -121,6 +120,7 @@ export class CampaignListComponent implements OnInit {
   }
 
   startCampaigns(){
+    console.log('Chamou todas as campanhas');
     this.campaignService.getAll().subscribe(
       data => {
         this.allCampaigns = data;

@@ -17,11 +17,12 @@ export class CampaignService {
   }
 
   getCampaigns(filters: any): Observable<any[]>{
+    console.log('Entrou getCampaigns com filters :: ', filters);
     let params = new HttpParams();
 
     // Conversao de campo booleano 'Possui contrato'
     if(filters.possuiContrato !== undefined) {
-      params = params.append(
+      params = params.set(
       'possuiContrato',
       filters.possuiContrato === 'Sim' ? 'true' : 'false'
       );
@@ -30,21 +31,19 @@ export class CampaignService {
      // Verifica se os filtros de data foram preenchidos e formata corretamente
      if (filters.dataInicio) {
       const formattedDate = moment(filters.dataInicio).format('YYYY-MM-DD');
-      params = params.append('dataInicio', formattedDate);
+      params = params.set('dataInicio', formattedDate);
     }
 
     if (filters.dataFim) {
       const formattedDate = moment(filters.dataFim).format('YYYY-MM-DD');
-      params = params.append('dataFim', formattedDate);
+      params = params.set('dataFim', formattedDate);
     }
 
     // Adiciona os filtros na url se forem preenchidos
     Object.keys(filters).forEach(key => {
-      if(filters[key] &&
-         key !== 'possuiContrato' &&
-         key !== 'dataInicio' &&
-         key !== 'dataFim'){
-        params = params.append(key, filters[key]);
+      console.log(":::Filters:::",filters);
+      if (filters[key] !== undefined && filters[key] !== null && filters[key] !== '') {
+        params = params.set(key, filters[key]);
       }
     });
 
