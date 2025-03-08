@@ -1,0 +1,90 @@
+// Fundo do modal
+::ng-deep .mat-dialog-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 90vw; // Para garantir que fique responsivo
+}
+
+// Cabeçalho do modal
+h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+// Estilos do conteúdo do modal
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+
+  p {
+    font-size: 1rem;
+    color: #555;
+    margin: 0;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    color: #222;
+    margin-top: 15px;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+
+    li {
+      background: #f8f8f8;
+      padding: 8px;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      font-size: 0.95rem;
+      color: #444;
+    }
+  }
+}
+
+// Estilizando o botão de fechar
+button {
+  margin-top: 15px;
+  align-self: center;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+
+// Responsividade para telas menores
+@media (max-width: 600px) {
+  ::ng-deep .mat-dialog-container {
+    padding: 15px;
+    max-width: 100%;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  p, li {
+    font-size: 0.9rem;
+  }
+
+  button {
+    width: 100%;
+  }
+}

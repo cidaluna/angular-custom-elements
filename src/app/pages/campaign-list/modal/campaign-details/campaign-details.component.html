@@ -1,0 +1,20 @@
+<div class="modal-content">
+  <h2>Detalhes da Campanha</h2>
+  <p><strong>Id:</strong> {{ data.id }}</p>
+  <p><strong>Nome da Campanha:</strong> {{ data.nomeCampanha }}</p>
+  <p><strong>Nome do Relatório:</strong> {{ data.nomeRelatorio }}</p>
+  <p><strong>Data Início:</strong> {{ formatDate(data.dataInicio) }}</p>
+  <p><strong>Data Fim:</strong> {{ formatDate(data.dataFim) }}</p>
+  <p><strong>Exibição Início:</strong> {{ formatDate(data.dataInicioExibicao) }}</p>
+  <p><strong>Exibição Fim:</strong> {{ formatDate(data.dataFimExibicao) }}</p>
+
+  <h3>Documentos:</h3>
+  <ul>
+    <li *ngFor="let doc of data.documentosClientes">
+      <strong>Nome Documento:</strong> {{ doc.nomeDocumento }} -
+      <strong>Possui Contrato:</strong> {{ doc.possuiContrato ? 'Sim' : 'Não' }}
+    </li>
+  </ul>
+
+  <button mat-button (click)="closeModal()">Fechar</button>
+</div>
