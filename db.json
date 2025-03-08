@@ -215,6 +215,22 @@
             "nomeDocumento": "Contrato D18"
           }
         ]
+      },
+      {
+        "id": 5,
+        "nomeCampanha": "Campanha A Json Server",
+        "nomeRelatorio": "Relatório E",
+        "dataInicio": "2026-01-01",
+        "dataFim": "2026-01-20",
+        "dataInicioExibicao": "2026-01-05",
+        "dataFimExibicao": "2026-01-20",
+        "documentosClientes": [
+          {
+            "possuiContrato": false,
+            "idDocumento": 222,
+            "nomeDocumento": "Contrato E"
+          }
+        ]
       }
     ],
   "periodics":
