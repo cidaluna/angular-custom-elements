@@ -143,8 +143,7 @@ export class CampaignListComponent implements OnInit {
         return;
       }
 
-      // Pega todas as chaves do primeiro item da API, garantindo que todas as colunas sejam exportadas
-       // Obtém todas as chaves do primeiro item, ignorando `documentosClientes` (será tratado separadamente)
+      // Obtém todas as chaves do primeiro item, ignorando `documentosClientes` (será tratado separadamente)
       const baseColumns = Object.keys(this.filteredCampaigns[0]).filter((col: any) => col !== 'documentosClientes');
 
       // Descobre dinamicamente os campos dentro de documentosClientes
@@ -156,31 +155,19 @@ export class CampaignListComponent implements OnInit {
       // Cria o cabeçalho CSV usando as chaves do primeiro objeto
       const header = columns.join(';');
 
-     // Mapeia os dados para gerar as linhas do CSV
-    // Mapeia os dados para gerar as linhas do CSV
-  const rows = this.filteredCampaigns.map(item =>
-    columns.map(col => {
-      if (documentosKeys.includes(col)) {
-        // Tipagem explícita para documentosClientes
-        const doc: { idDocumento?: string; nomeDocumento?: string; possuiContrato?: boolean } =
-          Array.isArray(item.documentosClientes) && item.documentosClientes.length > 0
-            ? item.documentosClientes[0]
-            : {};
-
-        if (col === 'possuiContrato') {
-          return doc.possuiContrato ? 'Sim' : 'Não';
+       // Mapeia os dados para gerar as linhas do CSV, considerando múltiplos documentos
+      const rows = this.filteredCampaigns.flatMap(item => {
+        // Se a campanha não tiver documentos, criamos uma linha sem dados de documentosClientes
+        if (!Array.isArray(item.documentosClientes) || item.documentosClientes.length === 0) {
+          return [columns.map(col => this.formatFieldToCSV(col, item)).join(';')];
         }
-        return doc[col as keyof typeof doc] ?? ''; // Garante que a chave existe
-      }
 
-      // Formata os campos de data para "DD/MM/YYYY"
-      if (col === 'dataInicio' || col === 'dataFim') {
-        return item[col] ? moment(item[col]).format('DD/MM/YYYY') : '';
-      }
+        // Se houver documentos, criamos uma linha para cada documento
+        return item.documentosClientes.map(doc =>
+          columns.map(col => this.formatFieldToCSV(col, item, doc)).join(';')
+        );
+      }).join('\n');
 
-      return item[col as keyof Campaign] ?? ''; // Valores padrão da campanha
-      }).join(';') // Junta os valores das colunas com ponto e vírgula
-    ).join('\n'); // Junta todas as linhas com quebras de linha
 
       // Concatena o cabeçalho e as linhas para formar o conteúdo completo do CSV
       const csvContent = header + '\n' + rows;
@@ -194,4 +181,23 @@ export class CampaignListComponent implements OnInit {
       // Faz o download do arquivo CSV
       saveAs(blob, 'dados-filtrados.csv');
     }
+
+/**
+ * Formata os valores das colunas corretamente, incluindo os documentosClientes.
+ */
+  formatFieldToCSV(col: string, item: any, doc: any = {}): string {
+    if (col === 'dataInicio' || col === 'dataFim') {
+      return item[col] ? moment(item[col]).format('DD/MM/YYYY') : '';
+    }
+
+    if (col === 'possuiContrato') {
+      return doc.possuiContrato ? 'Sim' : 'Não';
+    }
+
+    if (col === 'idDocumento' || col === 'nomeDocumento') {
+      return doc[col] ?? '';
+    }
+
+    return item[col] ?? '';
+  }
 }
