@@ -11,6 +11,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { ActivatedRoute, Router } from '@angular/router'; // Importado para query params
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { saveAs } from 'file-saver';
@@ -42,11 +43,14 @@ export class CampaignListComponent implements OnInit {
     {value: true, viewValue: 'Sim'},
     {value: false, viewValue: 'Não'},
   ];
-
+  statusOptions = ['CLICKED', 'ANOTHER', 'NEW'];
+  selectedStatus: string = '';
 
   constructor(private readonly fb: FormBuilder,
               private readonly campaignService: CampaignService,
-              private readonly dialog: MatDialog
+              private readonly dialog: MatDialog,
+              private readonly route: ActivatedRoute, //Rota atual para query params
+              private readonly router: Router, //Router para atualizar a URL
   ) {
     // Set the minimum to January 1st 5 years in the past and December 31st a year in the future.
     const currentYear = new Date().getFullYear();
@@ -57,6 +61,7 @@ export class CampaignListComponent implements OnInit {
   ngOnInit(): void {
     this.startFields();
     this.startCampaigns();
+    this.loadFiltersFromQueryParams(); // Carrega filtros da URL
   }
 
   startFields(): void {
@@ -66,10 +71,22 @@ export class CampaignListComponent implements OnInit {
       nomeRelatorio: [''],
       dataInicio: [null],
       dataFim: [null],
+      status: [''],
       documentosClientes: this.fb.group({
         possuiContrato: [''],
         nomeDocumento: [''],
       })
+    });
+  }
+
+  /**  Atualiza os filtros com base nos query params da URL */
+  loadFiltersFromQueryParams(): void {
+    console.log('Entrou loadFiltersFromQueryParams');
+    // O route faz a leitura dos parâmetros na rota ativa no momento (url atual)
+    this.route.queryParams.subscribe(params => {
+      if (params['status']) {
+        this.campaignForm.patchValue({ status: params['status'] });
+      }
     });
   }
 
@@ -83,11 +100,14 @@ export class CampaignListComponent implements OnInit {
       const filters: any = {
         nomeCampanha: this.campaignForm.value.nomeCampanha,
         nomeRelatorio: this.campaignForm.value.nomeRelatorio,
-        nomeDocumento: this.campaignForm.value.documentosClientes.nomeDocumento,
-        possuiContrato: this.campaignForm.value.documentosClientes.possuiContrato,
+        nomeDocumento: this.campaignForm.value.documentosClientes?.nomeDocumento,
+        possuiContrato: this.campaignForm.value.documentosClientes?.possuiContrato,
         dataInicio: this.campaignForm.value.dataInicio ? moment(this.campaignForm.value.dataInicio).format('YYYY-MM-DD') : null,
-        dataFim: this.campaignForm.value.dataFim ? moment(this.campaignForm.value.dataFim).format('YYYY-MM-DD') : null
+        dataFim: this.campaignForm.value.dataFim ? moment(this.campaignForm.value.dataFim).format('YYYY-MM-DD') : null,
+        status: this.campaignForm.value.status
       };
+
+      console.log('Nome Doc:', filters.nomeDocumento);
 
       // Remove filtros vazios
       Object.keys(filters).forEach((key: any) => {
@@ -97,6 +117,14 @@ export class CampaignListComponent implements OnInit {
       });
 
       console.log('Filters: ', filters);
+
+      // Atualiza os query params
+      // Usamos o router para modificar a URL
+      // Exemplo: Quando você seleciona um novo status, queremos atualizar a URL com esse status sem recarregar a página.
+      this.router.navigate([], {
+        queryParams: filters, // Define os novos query params com base nos filtros selecionados
+  queryParamsHandling: 'merge' // Mantém os query params antigos e só substitui os novos
+      });
 
       this.campaignService.getCampaigns(filters).subscribe({
         next: (data) => {

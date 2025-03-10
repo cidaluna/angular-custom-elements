@@ -20,6 +20,18 @@ export class CampaignService {
     console.log('Entrou getCampaigns com filters :: ', filters);
     let params = new HttpParams();
 
+    if (filters.nomeCampanha) {
+      params = params.set('nomeCampanha', filters.nomeCampanha);
+    }
+
+    if (filters.nomeRelatorio) {
+      params = params.set('nomeRelatorio', filters.nomeRelatorio);
+    }
+
+    if(filters.nomeDocumento){
+      params = params.set('nomeDocumento', filters.nomeDocumento);
+    }
+
     // Conversao de campo booleano 'Possui contrato'
     if(filters.possuiContrato !== undefined) {
       params = params.set(
@@ -47,6 +59,7 @@ export class CampaignService {
       }
     });
 
+    console.log('URL gerada:', this.apiUrl + '?' + params.toString());
     return this.httpClient.get<any[]>(this.apiUrl, { params });
   }
 }
