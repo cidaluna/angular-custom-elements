@@ -13,23 +13,24 @@
         <input id="nomeRelatorio" formControlName="nomeRelatorio" type="text" />
       </div>
 
-      <div class="input-field" formGroupName="documentosClientes">
-        <label for="nomeDocumento">Nome Documento</label>
-        <input id="nomeDocumento" formControlName="nomeDocumento" type="text" />
+      <div class="todo" formGroupName="documentosClientes">
+        <div class="input-field">
+          <label for="nomeDocumento">Nome Documento</label>
+          <input id="nomeDocumento" formControlName="nomeDocumento" type="text" />
+        </div>
+
+        <div class="input-field">
+          <mat-label>Possui contrato ?</mat-label>
+          <mat-form-field>
+            <mat-select formControlName="possuiContrato">
+              <mat-option *ngFor="let contrato of contratos" [value]="contrato.value">
+                {{ contrato.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
 
-      <div class="input-field" formGroupName="documentosClientes">
-        <!-- <label for="possuiContrato">Possui Contrato ?</label>
-        <input id="possuiContrato" formControlName="possuiContrato" type="text" /> -->
-        <mat-label>Possui contrato ?</mat-label>
-        <mat-form-field>
-          <mat-select formControlName="possuiContrato">
-            <mat-option *ngFor="let contrato of contratos" [value]="contrato.value">
-              {{ contrato.viewValue }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
 
       <div class="input-field-custom">
         <label for="dataInicio">Data Início</label>
