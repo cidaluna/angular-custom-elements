@@ -51,6 +51,17 @@
         </mat-form-field>
       </div>
 
+      <div class="input-field">
+        <mat-label>Status</mat-label>
+        <mat-form-field>
+          <mat-select formControlName="status">
+            <mat-option *ngFor="let status of statusOptions" [value]="status">
+              {{ status }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
       <div class="button-container">
         <button id="form-search-button" type="submit" [disabled]="!campaignForm.valid">Pesquisar</button>
       </div>
