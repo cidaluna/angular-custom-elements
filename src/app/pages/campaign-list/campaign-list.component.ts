@@ -83,10 +83,21 @@ export class CampaignListComponent implements OnInit {
   loadFiltersFromQueryParams(): void {
     console.log('Entrou loadFiltersFromQueryParams');
     // O route faz apenas a leitura dos parâmetros na url atual
+    //  todos os filtros sejam carregados de uma vez sem precisar de várias chamadas.
     this.route.queryParams.subscribe(params => {
-      if (params['status']) {
-        this.campaignForm.patchValue({ status: params['status'] });
-      }
+      const filters = {
+        status: params['status'] || '',
+        nomeCampanha: params['nomeCampanha'] || '',
+        nomeRelatorio: params['nomeRelatorio'] || '',
+        documentosClientes: {
+          possuiContrato: params['possuiContrato'] || '',
+          nomeDocumento: params['nomeDocumento'] || '',
+        },
+        dataInicio: params['dataInicio'] ? moment(params['dataInicio']).toDate() : null,
+        dataFim: params['dataFim'] ? moment(params['dataFim']).toDate() : null
+      };
+
+      this.campaignForm.patchValue(filters);
     });
   }
 
