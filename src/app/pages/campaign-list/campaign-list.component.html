@@ -64,6 +64,9 @@
       </div>
 
       <div class="button-container">
+        <button id="form-clear-button" type="button" (click)="clearFilters()">
+          Limpar
+        </button>
         <button id="form-search-button" type="submit" [disabled]="!campaignForm.valid">Pesquisar</button>
       </div>
   </div>

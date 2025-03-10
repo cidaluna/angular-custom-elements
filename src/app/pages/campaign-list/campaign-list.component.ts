@@ -79,6 +79,19 @@ export class CampaignListComponent implements OnInit {
     });
   }
 
+  clearFilters(): void {
+    console.log('Clicou em Limpar');
+
+    this.campaignForm.reset(); // Reseta os campos do formulário para os valores iniciais
+
+    // Remove os filtros da URL
+    this.router.navigate([], {
+      queryParams: {}, // Remove todos os query params
+    });
+
+    this.filteredCampaigns = [...this.allCampaigns]; // Restaura os dados completos
+  }
+
   /**  Atualiza os filtros com base nos query params da URL */
   loadFiltersFromQueryParams(): void {
     console.log('Entrou loadFiltersFromQueryParams');
