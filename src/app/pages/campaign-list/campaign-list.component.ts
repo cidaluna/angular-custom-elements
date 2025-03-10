@@ -82,7 +82,7 @@ export class CampaignListComponent implements OnInit {
   /**  Atualiza os filtros com base nos query params da URL */
   loadFiltersFromQueryParams(): void {
     console.log('Entrou loadFiltersFromQueryParams');
-    // O route faz a leitura dos parâmetros na rota ativa no momento (url atual)
+    // O route faz apenas a leitura dos parâmetros na url atual
     this.route.queryParams.subscribe(params => {
       if (params['status']) {
         this.campaignForm.patchValue({ status: params['status'] });
@@ -119,7 +119,7 @@ export class CampaignListComponent implements OnInit {
       console.log('Filters: ', filters);
 
       // Atualiza os query params
-      // Usamos o router para modificar a URL
+      // Usamos o router para modificar query params e atualizar a URL dinamicamente
       // Exemplo: Quando você seleciona um novo status, queremos atualizar a URL com esse status sem recarregar a página.
       this.router.navigate([], {
         queryParams: filters, // Define os novos query params com base nos filtros selecionados
