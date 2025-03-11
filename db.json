@@ -156,6 +156,7 @@
         "dataInicioExibicao": "2025-01-05",
         "dataFimExibicao": "2025-01-20",
         "status": "CLICKED",
+        "description": "Description Campanha A Json Server",
         "documentosClientes": [
           {
             "possuiContrato": true,
@@ -178,6 +179,7 @@
         "dataInicioExibicao": "2024-01-18",
         "dataFimExibicao": "2025-01-20",
         "status": "CLICKED",
+        "description": "Description Campanha B Json Server",
         "documentosClientes": [
           {
             "possuiContrato": true,
@@ -195,6 +197,7 @@
         "dataInicioExibicao": "2025-05-05",
         "dataFimExibicao": "2026-02-24",
         "status": "NEW",
+        "description": "Description Campanha C Json Server",
         "documentosClientes": [
           {
             "possuiContrato": true,
@@ -212,6 +215,7 @@
         "dataInicioExibicao": "2025-03-05",
         "dataFimExibicao": "2025-12-30",
         "status": "ANOTHER",
+        "description": "Description Campanha D Json Server",
         "documentosClientes": [
           {
             "possuiContrato": true,
@@ -229,6 +233,7 @@
         "dataInicioExibicao": "2026-01-05",
         "dataFimExibicao": "2026-01-20",
         "status": "NEW",
+        "description": "Description Campanha A Json Server 2",
         "documentosClientes": [
           {
             "possuiContrato": false,
@@ -246,6 +251,7 @@
         "dataInicioExibicao": "2026-01-05",
         "dataFimExibicao": "2026-12-31",
         "status": "CLICKED",
+        "description": "Description Campanha F Json Server",
         "documentosClientes": [
           {
             "possuiContrato": false,
@@ -263,6 +269,7 @@
         "dataInicioExibicao": "2026-05-05",
         "dataFimExibicao": "2026-05-31",
         "status": "NEW",
+        "description": "Description Campanha G Json Server",
         "documentosClientes": [
           {
             "possuiContrato": true,
