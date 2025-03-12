@@ -32,7 +32,7 @@ export class BookListComponent implements OnInit, AfterViewInit {
   searchForm!: FormGroup;
   dataSourceBooks = new MatTableDataSource<Book>();
   allBooks!: Book[];
-  filteredBooks!: Book[];
+  filteredBooks: Book[] = [];
   error: any;
   loading = false; // Controla o estado de carregamento
   minDateRule: Date;
