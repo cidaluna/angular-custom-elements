@@ -5,12 +5,15 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CampaignService } from '../../services/campaign.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { Campaign } from '../../models/campaign.interface';
 import moment from 'moment';
 import { CommonModule } from '@angular/common';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { saveAs } from 'file-saver';
+import { HttpErrorResponse, HttpHandlerFn, HttpRequest } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { errorInterceptor } from '../../core/error.interceptor';
 
 describe('CampaignListComponent', () => {
   let component: CampaignListComponent;
@@ -28,6 +31,7 @@ describe('CampaignListComponent', () => {
 
 
   beforeEach(async () => {
+
     await TestBed.configureTestingModule({
       imports: [
         CampaignListComponent,
@@ -191,4 +195,5 @@ describe('CampaignListComponent', () => {
     const formattedDate = component.formatFieldToCSV('dataInicio', item);
     expect(formattedDate).toBe('01/01/2024');
   });
+
 });

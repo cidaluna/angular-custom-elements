@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Campaign } from '../models/campaign.interface';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import moment from 'moment';
 
 @Injectable({
@@ -9,6 +9,7 @@ import moment from 'moment';
 })
 export class CampaignService {
   private readonly apiUrl = 'http://localhost:3000/campaigns'; // URL do json-server
+  private readonly testeApiUrl = '/api'; // para simular erro servidor
 
   constructor(private readonly httpClient: HttpClient) { }
 
@@ -61,5 +62,13 @@ export class CampaignService {
 
     console.log('URL gerada:', this.apiUrl + '?' + params.toString());
     return this.httpClient.get<any[]>(this.apiUrl, { params });
+  }
+
+  getCampaignsWithError(): Observable<any> {
+    return this.httpClient.get(`${this.testeApiUrl}/erro500`).pipe(
+      catchError((error) => {
+        return throwError(() => error);
+      })
+    );
   }
 }

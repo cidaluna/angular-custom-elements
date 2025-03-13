@@ -67,6 +67,7 @@
           Limpar
         </button>
         <button id="form-search-button" type="submit" [disabled]="!campaignForm.valid">Pesquisar</button>
+        <button (click)="fetchCampaigns()">Teste erro servidor - Buscar Campanhas</button>
       </div>
   </div>
   </form>
@@ -116,4 +117,9 @@
       (click)="exportToCSV()">Exportar dados</button>
     </div>
   </div>
+</div>
+
+<!-- Mensagem exibida quando não há dados -->
+<div class="no-data-message" *ngIf="filteredCampaigns.length === 0">
+  <p>Não foram encontrados dados</p>
 </div>

@@ -114,6 +114,13 @@ export class CampaignListComponent implements OnInit {
     });
   }
 
+  fetchCampaigns() {
+    this.campaignService.getCampaignsWithError().subscribe({
+      next: (data) => console.log('Dados recebidos:', data),
+      error: (err) => console.log('Erro tratado pelo interceptor:', err),
+    });
+  }
+
   onSubmit(): void {
     console.log('Clicou em Pesquisar');
 
