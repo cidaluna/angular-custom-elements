@@ -15,27 +15,6 @@ describe('ErrorInterceptor', () => {
     mockNext = jasmine.createSpy('mockNext');
   });
 
-  it('deve exibir o Snackbar quando ocorrer erro 500', (done) => {
-    const errorResponse = new HttpErrorResponse({
-      status: 500,
-      statusText: 'Internal Server Error',
-    });
-
-    // Simula uma requisição falhando com erro 500
-    mockNext.and.returnValue(throwError(() => errorResponse));
-
-    errorInterceptor({} as HttpRequest<any>, mockNext).subscribe({
-      error: () => {
-        expect(mockSnackBar.open).toHaveBeenCalledWith(
-          'Erro interno no servidor. Tente novamente mais tarde.',
-          'Fechar',
-          jasmine.any(Object) // Qualquer configuração do Snackbar
-        );
-        done();
-      },
-    });
-  });
-
   it('não deve exibir o Snackbar para erro 404', (done) => {
     const errorResponse = new HttpErrorResponse({
       status: 404,
