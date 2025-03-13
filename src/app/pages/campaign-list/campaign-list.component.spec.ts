@@ -107,6 +107,44 @@ describe('CampaignListComponent', () => {
     expect(router.navigate).toHaveBeenCalled();
   });
 
+  it('should call campaignService.getCampaigns() with all filters values', () => {
+    // Preenche os campos do formulário com valores simulados
+    component.campaignForm.setValue({
+      nomeCampanha: 'Campanha Teste',
+      nomeRelatorio: 'Relatório 2025',
+      dataInicio: moment('2020-01-01').toDate(),
+      dataFim: moment('2026-12-31').toDate(),
+      status: 'CLICKED',
+      documentosClientes: {
+        nomeDocumento: 'Contrato Assinado',
+        possuiContrato: true,
+      },
+    });
+
+    // Chama o método de submissão
+    component.onSubmit();
+
+    // Cria o objeto esperado de filtros
+    const expectedFilters = {
+      nomeCampanha: 'Campanha Teste',
+      nomeRelatorio: 'Relatório 2025',
+      dataInicio: '2020-01-01',
+      dataFim: '2026-12-31',
+      status: 'CLICKED',
+      nomeDocumento: 'Contrato Assinado',
+      possuiContrato: true,
+    };
+
+    // Verifica se o método getCampaigns foi chamado com os filtros corretos
+    expect(mockCampaignService.getCampaigns).toHaveBeenCalledWith(expectedFilters);
+
+    // Verifica se o método navigate foi chamado para atualizar os query params
+    expect(mockRouter.navigate).toHaveBeenCalledWith([], {
+      queryParams: expectedFilters,
+      queryParamsHandling: 'merge',
+    });
+  });
+
   it('should fetch all campaigns on startCampaigns()', () => {
     const mockData: Campaign[] = [{ id: '1', nomeCampanha: 'Mock Campaign' } as Campaign];
 
