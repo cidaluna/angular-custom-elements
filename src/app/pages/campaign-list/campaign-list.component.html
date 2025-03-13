@@ -1,10 +1,9 @@
 <div class="form-container">
-  <!-- **** Usar este componente Campaign **** -->
   <div *ngIf="loading">Carregando...</div>
   <form [formGroup]="campaignForm" (ngSubmit)="onSubmit()">
     <div class="input-group">
       <div class="input-field">
-        <label for="nomeCampanha">Mentoria - Nome Campanha</label>
+        <label for="nomeCampanha">Nome Campanha</label>
         <input id="nomeCampanha" formControlName="nomeCampanha" type="text" />
       </div>
 
