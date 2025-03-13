@@ -19,3 +19,9 @@ $theme: mat.define-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.error-snackbar {
+  background-color: #d32f2f !important; /* Vermelho forte para destacar erro */
+  color: #fff !important;
+  font-weight: bold;
+}
