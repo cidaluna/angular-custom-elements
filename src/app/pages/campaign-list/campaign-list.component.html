@@ -9,50 +9,11 @@
 
       <div class="input-field">
         <label for="nomeRelatorio">Nome relatório</label>
-        <input id="nomeRelatorio" formControlName="nomeRelatorio" type="text" />
-      </div>
-
-      <div class="todo" formGroupName="documentosClientes">
-        <div class="input-field">
-          <label for="nomeDocumento">Nome Documento</label>
-          <input id="nomeDocumento" formControlName="nomeDocumento" type="text" />
-        </div>
-
-        <div class="input-field">
-          <mat-label>Possui contrato ?</mat-label>
-          <mat-form-field>
-            <mat-select formControlName="possuiContrato">
-              <mat-option *ngFor="let contrato of contratos" [value]="contrato.value">
-                {{ contrato.viewValue }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-
-
-      <div class="input-field-custom">
-        <label for="dataInicio">Data Início</label>
-        <mat-form-field class="example-full-width">
-          <input matInput [min]="minDateRule" [max]="maxDateRule"
-          [matDatepicker]="picker1" id="dataInicio" formControlName="dataInicio">
-          <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-      </div>
-
-      <div class="input-field-custom">
-        <label for="dataFim">Data Fim</label>
-        <mat-form-field class="example-full-width">
-          <input matInput [min]="minDateRule" [max]="maxDateRule"
-          [matDatepicker]="picker2" id="dataFim" formControlName="dataFim">
-          <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-          <mat-datepicker #picker2></mat-datepicker>
-        </mat-form-field>
+        <input id="nomeRelatorio" formControlName="nomeRelatorio" type="text" maxlength="10" />
       </div>
 
       <div class="input-field">
-        <mat-label>Status</mat-label>
+        <mat-label class="space">Status</mat-label>
         <mat-form-field>
           <mat-select formControlName="status">
             <mat-option *ngFor="let status of statusOptions" [value]="status">
@@ -62,14 +23,58 @@
         </mat-form-field>
       </div>
 
+        <div class="input-field" formGroupName="documentosClientes">
+          <label for="nomeDocumento">Nome Documento</label>
+          <input id="nomeDocumento" formControlName="nomeDocumento" type="text" />
+        </div>
+
+        <div class="input-field" formGroupName="documentosClientes">
+          <mat-label class="space">Possui contrato ?</mat-label>
+          <mat-form-field>
+            <mat-select formControlName="possuiContrato">
+              <mat-option *ngFor="let contrato of contratos" [value]="contrato.value">
+                {{ contrato.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="input-field">
+          <label for="id">Id Campanha</label>
+          <input id="id" formControlName="id" type="text" />
+        </div>
+
+      <div class="input-field-custom">
+        <mat-form-field appearance="fill" class="custom-calendar-inicio">
+          <mat-label class="custom-label-fill" for="dataInicio">Data Início</mat-label>
+          <input matInput [min]="minDateRule" [max]="maxDateRule"
+          [matDatepicker]="picker1" id="dataInicio" formControlName="dataInicio">
+          <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="input-field-custom">
+        <label class="custom-label-out" for="dataFim">Data Fim</label>
+        <mat-form-field class="custom-calendar-fim">
+          <input matInput [min]="minDateRule" [max]="maxDateRule"
+          [matDatepicker]="picker2" id="dataFim" formControlName="dataFim">
+          <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+      <br>
       <div class="button-container">
-        <button id="form-clear-button" type="button" (click)="clearFilters()">
+        <button id="form-clear-button" class="form-clear-button" type="button" (click)="clearFilters()">
           Limpar
         </button>
-        <button id="form-search-button" type="submit" [disabled]="!campaignForm.valid">Pesquisar</button>
-        <button (click)="fetchCampaigns()">Teste erro servidor - Buscar Campanhas</button>
+        <button id="form-search-button" class="form-search-button" type="submit" [disabled]="!campaignForm.valid">Pesquisar</button>
+        <button id="form-error-button" class="form-error-button" (click)="fetchCampaigns()">Teste erro servidor - Buscar Campanhas</button>
       </div>
-  </div>
+
+
   </form>
   <br>
   <div class="results-table" *ngIf="filteredCampaigns.length > 0">
@@ -111,6 +116,12 @@
         </tr>
       </tbody>
     </table>
+    <!-- Paginação alterar todo -->
+      <mat-paginator [length]="totalItems"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 20]"
+      (page)="onPageChange($event)">
+      </mat-paginator>
     <br>
     <div class="button-container">
       <button id="button-export-to-csv-file"
@@ -120,6 +131,6 @@
 </div>
 
 <!-- Mensagem exibida quando não há dados -->
-<div class="no-data-message" *ngIf="filteredCampaigns.length === 0">
+<div class="form-container no-data-message" *ngIf="filteredCampaigns.length === 0">
   <p>Não foram encontrados dados</p>
 </div>

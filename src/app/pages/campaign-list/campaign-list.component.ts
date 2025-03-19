@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Campaign } from '../../models/campaign.interface';
-import { FormBuilder, ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { CampaignService } from '../../services/campaign.service';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import {provideNativeDateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router'; // Importado para quer
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { saveAs } from 'file-saver';
+import { PageEvent, MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 registerLocaleData(localePt);
 
 export interface Contrato {
@@ -27,7 +28,8 @@ export interface Contrato {
   providers: [provideNativeDateAdapter(),
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
   ],
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatInputModule, MatIconModule, MatDatepickerModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatInputModule, MatIconModule, MatDatepickerModule, MatPaginatorModule
+  ],
   templateUrl: './campaign-list.component.html',
   styleUrl: './campaign-list.component.scss'
 })
@@ -45,6 +47,9 @@ export class CampaignListComponent implements OnInit {
   ];
   statusOptions = ['CLICKED', 'ANOTHER', 'NEW'];
   selectedStatus: string = '';
+  totalItems: number = 0;
+  currentPage: number = 1;
+  pageSize: number = 5; // Número de itens por página
 
   constructor(private readonly fb: FormBuilder,
               private readonly campaignService: CampaignService,
@@ -65,10 +70,11 @@ export class CampaignListComponent implements OnInit {
   }
 
   startFields(): void {
+    console.log('Entrou startFields');
     // Inicializa o form com os campos vazios
     this.campaignForm = this.fb.group({
       nomeCampanha: [''],
-      nomeRelatorio: [''],
+      nomeRelatorio: ['', [Validators.maxLength(10)]],
       dataInicio: [null],
       dataFim: [null],
       status: [''],
@@ -121,6 +127,45 @@ export class CampaignListComponent implements OnInit {
     });
   }
 
+  onPageChange(event: PageEvent): void {
+    console.log('Mudou de página:', event);
+    this.currentPage = event.pageIndex + 1; // MatPaginator usa índice baseado em 0
+    this.pageSize = event.pageSize;
+
+    // Obtém os filtros atuais do formulário para manter os critérios de pesquisa ao mudar de página
+    const filters: any = {
+      nomeCampanha: this.campaignForm.value.nomeCampanha,
+      nomeRelatorio: this.campaignForm.value.nomeRelatorio,
+      nomeDocumento: this.campaignForm.value.documentosClientes?.nomeDocumento,
+      possuiContrato: this.campaignForm.value.documentosClientes?.possuiContrato,
+      dataInicio: this.campaignForm.value.dataInicio ? moment(this.campaignForm.value.dataInicio).format('YYYY-MM-DD') : null,
+      dataFim: this.campaignForm.value.dataFim ? moment(this.campaignForm.value.dataFim).format('YYYY-MM-DD') : null,
+      status: this.campaignForm.value.status
+    };
+
+    // Remove filtros vazios
+    Object.keys(filters).forEach((key) => {
+      if (!filters[key]) {
+        delete filters[key];
+      }
+    });
+
+    // Atualiza os query params na URL para refletir a nova página
+    this.router.navigate([], {
+      queryParams: { ...filters, page: this.currentPage, limit: this.pageSize },
+      queryParamsHandling: 'merge' // Mantém os outros parâmetros da URL
+    });
+
+    // Busca os novos dados com base na nova página
+    this.getCampaigns(filters, this.currentPage, this.pageSize);
+  }
+
+
+  get totalPages(): number {
+    console.log('Entrou totalPages');
+    return Math.ceil(this.totalItems / this.pageSize);
+  }
+
   onSubmit(): void {
     console.log('Clicou em Pesquisar');
 
@@ -157,32 +202,50 @@ export class CampaignListComponent implements OnInit {
   queryParamsHandling: 'merge' // Mantém os query params antigos e só substitui os novos
       });
 
-      this.campaignService.getCampaigns(filters).subscribe({
-        next: (data) => {
-          this.filteredCampaigns = data.map(campaign => ({
-            ...campaign,
-            dataInicio: moment(campaign.dataInicio, 'YYYY-MM-DD').toDate(),
-            dataFim: moment(campaign.dataFim, 'YYYY-MM-DD').toDate(),
-            documentosClientes: campaign.documentosClientes.map((doc: any) => ({
-              ...doc,
-              possuiContrato: doc.possuiContrato ? 'Sim' : 'Não'
-            }))
-          }));
-
-          this.loading = false;
-        },
-        error: (err) => {
-          console.error('Erro ao realizar a busca: ',err);
-          this.loading = false;
-        }
-      });
+      this.getCampaigns(filters, this.currentPage, this.pageSize);
     }
+  }
+
+  getCampaigns(filters: any, currentPage: number, pageSize: number): void {
+    this.loading = true;
+
+    this.campaignService.getCampaigns(filters, currentPage, pageSize).subscribe({
+      next: (response) => {
+        if (!response.body) {
+          console.warn('Nenhum dado recebido.');
+          this.filteredCampaigns = [];
+          this.totalItems = 0;
+          this.loading = false;
+          return;
+        }
+
+        // verifica se existe body antes de acessar
+        const campaigns = response.body || [];
+
+        this.filteredCampaigns = campaigns.map(campaign => ({
+          ...campaign,
+          dataInicio: moment(campaign.dataInicio,  'YYYY-MM-DD').toDate(),
+          dataFim: moment(campaign.dataFim, 'YYYY-MM-DD').toDate(),
+          documentosClientes: campaign.documentosClientes.map((doc: any) => ({
+            ...doc,
+            possuiContrato: doc.possuiContrato ? 'Sim' : 'Não'
+          }))
+        }));
+        this.totalItems = Number(response.headers.get('X-Total-Count')); // Captura o total de itens
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Erro ao realizar a busca: ',err);
+        this.filteredCampaigns = [];
+        this.totalItems = 0;
+        this.loading = false;
+      }
+    });
   }
 
   startCampaigns(){
     console.log('Chamou todas as campanhas');
-    this.campaignService.getAll().subscribe(
-      data => {
+    this.campaignService.getAll().subscribe((data) => {
         this.allCampaigns = data;
         this.filteredCampaigns = data;
       }
@@ -190,6 +253,7 @@ export class CampaignListComponent implements OnInit {
   }
 
   openDetails(campaign: Campaign) {
+    console.log('Clicou em Detalhes:', campaign);
     this.dialog.open(CampaignDetailsComponent, {
       width: '450px',
       data: campaign

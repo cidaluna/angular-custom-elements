@@ -10,15 +10,29 @@
   .input-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 16px; // Espaço entre os itens
+    justify-content: flex-start;
     margin-bottom: 20px;
   }
 
-  .input-field {
-    flex: 1;
-    min-width: 220px;
+    /* Ajuste específico para o grupo de documentos */
+  .todo {
     display: flex;
     flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Ajusta os campos internos dentro de "todo" */
+  .todo .input-field {
+    flex: 1; // Permite que os campos dentro de "todo" fiquem alinhados corretamente
+  }
+
+  .input-field{
+    flex: 1 1 calc(33.33% - 16px); // Até 3 filtros por linha
+    min-width: 220px; // Define um tamanho mínimo para melhor responsividade
+    display: flex;
+    flex-direction: column;
+    line-height: 25px;
 
     label {
       font-size: 14px;
@@ -36,7 +50,12 @@
     input:focus {
       border-color: #007bff;
     }
+
+    .space{
+      margin-bottom: 5px;
+    }
   }
+
 
   .icons {
     display: flex;
@@ -80,15 +99,13 @@
       padding: 10px 20px;
       font-size: 16px;
       margin-left: 16px;
-      background-color: #007bff;
-      color: white;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: #0056b3;
+        background-color: #004896;
       }
 
       &:disabled {
@@ -117,18 +134,62 @@
   }
 }
 
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.pagination-container button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.form-clear-button{
+  background-color: #616161;
+  color: white;
+}
+
+.form-search-button{
+  background-color: #007bff;
+  color: white;
+}
+
+.form-error-button{
+  background-color: #ff4343;
+  color: white;
+}
+
 /* Datas */
 .input-field-custom {
-  flex: 1;
+  flex: 1 1 calc(33.33% - 16px); // Até 3 itens por linha
   min-width: 220px;
   display: flex;
   flex-direction: column;
-
-  label {
-    font-size: 14px;
-    margin-bottom: 5px;
-  }
+  align-items: justify;
+  justify-content: center;
+  line-height: 25px;
 }
+
+.custom-label-out{
+  margin-bottom: 8px;
+}
+
+.custom-calendar-inicio{
+  margin-top: 20px;
+}
+
+.custom-calendar-fim{
+  margin-bottom: 8px;
+}
+
+::ng-deep .mat-mdc-form-field:not(.mat-form-field-disabled) .mat-mdc-floating-label.mdc-floating-label {
+  cursor: inherit;
+  color: purple;
+  margin-top: 0px;
+}
+
 ::ng-deep .mdc-text-field{
   position: inherit !important;
 }
@@ -152,19 +213,24 @@
 ::ng-deep .mdc-line-ripple{
   display: none !important;
 }
-
-
-
-@media (max-width: 768px) {
-  .form-container {
-    padding: 15px;
-  }
-
-  .input-group {
-    flex-direction: column;
-  }
-
-  .input-field, .button-container, .icon-container {
-    width: 100%;
-  }
+::ng-deep .mdc-text-field__input{
+  margin-top: 8px;
 }
+::ng-deep .mdc-text-field--filled.mdc-text-field--no-label .mdc-text-field__input{
+  margin-top: 2px;
+}
+
+
+// @media (max-width: 768px) {
+//   .form-container {
+//     padding: 15px;
+//   }
+
+//   .input-group {
+//     flex-direction: column;
+//   }
+
+//   .input-field, .button-container, .icon-container {
+//     flex: 1 1 100%; // Empilha os filtros em telas menores
+//   }
+// }
