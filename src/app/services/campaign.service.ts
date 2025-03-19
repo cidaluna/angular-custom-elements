@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Campaign } from '../models/campaign.interface';
 import { catchError, Observable, throwError } from 'rxjs';
 import moment from 'moment';
@@ -8,7 +8,10 @@ import moment from 'moment';
   providedIn: 'root'
 })
 export class CampaignService {
-  private readonly apiUrl = 'http://localhost:3000/campaigns'; // URL do json-server
+  // O JSON Server suporta paginação nativamente usando os parâmetros _page e _limit.
+  // Exemplo:
+  // GET http://localhost:3000/campaigns?_page=1&_limit=10
+  private readonly apiUrl = 'http://localhost:3000/campaigns';
   private readonly testeApiUrl = '/api'; // para simular erro servidor
 
   constructor(private readonly httpClient: HttpClient) { }
@@ -17,9 +20,12 @@ export class CampaignService {
     return this.httpClient.get<Campaign[]>(this.apiUrl);
   }
 
-  getCampaigns(filters: any): Observable<any[]>{
+  getCampaigns(filters: any, page: number, limit: number):  Observable<HttpResponse<any[]>>{
     console.log('Entrou getCampaigns com filters :: ', filters);
-    let params = new HttpParams();
+    let params = new HttpParams()
+      .set('_page', page.toString())
+      .set('_limit', limit.toString());
+
 
     if (filters.nomeCampanha) {
       params = params.set('nomeCampanha', filters.nomeCampanha);
@@ -61,7 +67,9 @@ export class CampaignService {
     });
 
     console.log('URL gerada:', this.apiUrl + '?' + params.toString());
-    return this.httpClient.get<any[]>(this.apiUrl, { params });
+    return this.httpClient.get<any[]>(this.apiUrl, { params, observe: 'response' });
+    // observe: 'response' permite acessar os cabeçalhos HTTP, incluindo
+    // X-Total-Count para obter o total de registros.
   }
 
   getCampaignsWithError(): Observable<any> {
